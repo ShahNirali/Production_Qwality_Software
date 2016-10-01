@@ -8,8 +8,8 @@ public class AddressEntry {
   private String note;
   
   public class Builder{
-    private String name;
-    private int phoneNumber;
+    private String name="";
+    private int phoneNumber=0;
     private String postalAddress="";
     private String emailAddress="";
     private String note="";
