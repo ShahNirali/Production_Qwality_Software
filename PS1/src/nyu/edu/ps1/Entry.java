@@ -7,7 +7,7 @@ public class Entry {
   private String emailAddress;
   private String note;
   
-  public class Builder{
+  public static class Builder{
     //Required parameter
     private String name;
     private String postalAddress;
@@ -70,11 +70,12 @@ public class Entry {
     return this.note;
   }
   
+  @Override
   public String toString(){
-    return this.getName() + " "
-           + this.getPostalAddress() + " "
-           + this.getPhoneNumber() + " "
-           + this.getEmailAddress() + " "
-           + this.getNote();
+    return (this.name == null ? "null" : this.name) + "|"
+           + (this.postalAddress == null ? "null" : this.postalAddress) + "|"
+           + (this.phoneNumber == null ? "null" : this.phoneNumber) + "|"
+           + (this.emailAddress == null ? "null" : this.emailAddress) + "|"
+           + (this.note == null ? "null" : this.note);
   }
 }
