@@ -7,17 +7,22 @@ public class Main {
     Entry entry1 = new Entry.Builder("Jack", "544, Summ").build();
     Entry entry2 = new Entry.Builder("Simon", "").build();
     Entry entry3 = new Entry.Builder("Peter", "Clifton Place")
-        .setPhoneNumber("2334342").build();
+        .phoneNumber("2334342").build();
     Entry entry4 = new Entry.Builder("Shell", "Hoboken")
-        .setNote("Temporary Address").build();
+        .note("Temporary Address").build();
+    Entry entry5 = new Entry.Builder("Simon", "").build();
     
     addressbook.add(entry1);
     addressbook.add(entry2);
+    addressbook.add(entry2);
     addressbook.add(entry3);
+    addressbook.add(entry4);
+    addressbook.add(entry5);
     
-    AddressBook.save(addressbook, "AddressBook.txt");
-    addressbook = AddressBook.read("AddressBook.txt");
+    addressbook.save("AddressBook.txt");
+    addressbook.read("AddressBook.txt");
     addressbook.remove(entry2);
-    AddressBook.save(addressbook, "AddressBook.txt");
+    addressbook.save("AddressBook1.txt");
+    
   }
 }
