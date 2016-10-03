@@ -1,10 +1,11 @@
 package nyu.edu.ps1;
 
-import java.util.Scanner;
 import java.util.logging.Logger;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,11 +13,6 @@ import java.util.ArrayList;
 public class AddressBook {
   private static final Logger logger = Logger.getLogger(AddressBook.class.getName());
   private ArrayList<Entry> list;
-  
-  //Suppress default constructor for non instantiability
-  private AddressBook(){
-    throw new AssertionError();
-  }
   
   public static AddressBook newInstance(){
     AddressBook addressbook = new AddressBook();
@@ -43,13 +39,16 @@ public class AddressBook {
       logger.warning("Error: Invalid Entry to remove from addressbook");
       throw new IllegalArgumentException("Can't be empty");
     }
+    for(int index = 0; index < list.size(); index++){
+      if(entry.equals(list.get(index))){
+        list.remove(index);
+      }
+    }
     logger.info(entry.toString() + " removed from AddressBook");
-    list.remove(entry);
-    
   }
   
   public ArrayList<Entry> search(Property property, String searchString){
-    if(searchString == null || property == null){
+    if(searchString == null){
       logger.warning("Error: Invalid String to search in addressbook");
       throw new IllegalArgumentException("Can't be empty");
     }
@@ -96,50 +95,75 @@ public class AddressBook {
       logger.warning("Error: Invalid property to search in addressbook");
       throw new AssertionError("Unknown property");
     }
-    
     return searchResult;
   }
   
-  public void save(String filename){
+  public static void save(AddressBook addressBook, String filename){
+    if(addressBook == null){
+      logger.warning("Error: Invalid AddressBook to save");
+      throw new IllegalArgumentException("Can't be empty");
+    }
+    if(filename == null){
+      logger.warning("Error: Invalid filename to save addressbook");
+      throw new IllegalArgumentException("Can't be empty");
+    }
+    
     try {
-      FileWriter fileWriter = new FileWriter(filename);
+      File file = new File(filename);
+      if(!file.exists()){
+        file.createNewFile();
+      }
+      else{
+        logger.info("File " + filename + " exists so appending to file");
+      }
+      FileWriter fileWriter = new FileWriter(file,true);
       BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-      bufferedWriter.write(this.toString());
+      bufferedWriter.write(addressBook.toString());
+      logger.info("AddressBook successfully saved to " + filename);
       bufferedWriter.close();
     }
     catch(IOException bufferedWriter) {
+      logger.warning("Error: Write failed while saving addresses to file");
     }
   }
   
-  public AddressBook read(String filename){
-    AddressBook newBook = newInstance();
+  public static AddressBook read(String filename){
+    if(filename == null){
+      logger.warning("Error: Invalid filename to read");
+      throw new IllegalArgumentException("Can't be empty");
+    }
+    String line;
+    AddressBook addressBook = newInstance();
     try{
-      Scanner fileRead = new Scanner(new File(filename));
-      fileRead.useDelimiter("|\n");
-      while(fileRead.hasNext()) {
-        String name = fileRead.next();
-        String postalAddress = fileRead.next();
-        String phoneNumber = fileRead.next();
-        String emailAddress = fileRead.next();
-        String note = fileRead.next();
-        
-        Entry newEntry = new Entry.Builder(name, postalAddress)
-        .setPhoneNumber(phoneNumber)
-        .setEmailAddress(emailAddress)
-        .setNote(note).build();
-        newBook.add(newEntry);
+      FileReader fileReader = new FileReader(filename);
+      BufferedReader bufferedReader = new BufferedReader(fileReader);
+      while((line = bufferedReader.readLine()) != null) {
+        if(line.isEmpty()){
+          continue;
+        }
+        String[] data = line.split("\\|");
+        Entry newentry = new Entry.Builder(data[0], data[1])
+            .setPhoneNumber(data.length >= 3 ? data[2] : null)
+            .setEmailAddress(data.length >= 4 ? data[3] : null)
+            .setNote(data.length >= 5 ? data[2] : null).build();
+        addressBook.add(newentry);
       }
+      bufferedReader.close();
+      logger.info("Added all contacts from " + filename + " to Addressbook");
     }
     catch(FileNotFoundException fileNotFound){
+      logger.warning("Error: " + filename + " not found");
     }
-    return newBook;
+    catch(IOException reader){
+      logger.warning("Error: Read failed while loading addresses from file");
+    }
+    return addressBook;
   }
   
   @Override
   public String toString(){
     StringBuffer result = new StringBuffer();
-    ArrayList<Entry> entries = this.getList();
-    for(Entry entry: entries){
+    for(Entry entry: list){
       result.append(entry.toString() + "\n");
     }
     return result.toString();
