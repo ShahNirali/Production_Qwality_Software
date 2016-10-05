@@ -23,6 +23,7 @@ import java.util.Iterator;
 public class AddressBook {
   private static final Logger logger = 
       Logger.getLogger(AddressBook.class.getName());
+  //Properties of AddressBook
   private ArrayList<Entry> list;
   private int hashcode;
   
@@ -55,7 +56,7 @@ public class AddressBook {
   
 
   /**
-   * Add method is used to add an entry to arraylist of addressbook object. 
+   * Add method is used to add an entry to arraylist of AddressBook object. 
    *  
    * @param       entry object that needs to be inserted
    * @return      boolean signifying if the insertion was successful
@@ -73,13 +74,14 @@ public class AddressBook {
   }
   
   /**
-   * Remove method is used to remove entry from arraylist of addressbook 
-   * object. It also removes duplicate entries from addressbook by 
+   * Remove method is used to remove entry from arraylist of AddressBook 
+   * object. It also removes duplicate entries from AddressBook by 
    * traversing through entire arraylist. 
    *  
    * @param       entry object that needs to be removed
    * @throws      an IllegalArgumentException when @param is null
-   * @throws      RuntimeException when the addressBook is empty
+   * @throws      IndexOutOfBoundsException when the AddressBook is empty
+   *              and user tries to remove entries
    */
   public void remove(Entry entry){
     if(entry == null){
@@ -87,8 +89,8 @@ public class AddressBook {
       throw new IllegalArgumentException("Can't be empty");
     }
     if(list.isEmpty()){
-      logger.warning("Error: No entry in addressbook");
-      throw new RuntimeException("Can't be empty");
+      logger.warning("Error: No entry in addressbook to remove");
+      throw new IndexOutOfBoundsException("List is empty");
     }
     removeDuplicates(entry);
     logger.info(entry.toString() + " removed from AddressBook");
@@ -110,7 +112,7 @@ public class AddressBook {
   }
   
   /**
-   * Search method is used to search a particular string in addressbook 
+   * Search method is used to search a particular string in AddressBook 
    * by the property specified by the user. The property should 
    * be one present in enum class Property.
    *  
@@ -118,7 +120,7 @@ public class AddressBook {
    * @param       word or sentence to search
    * @return      entries of addressBook that match the param passed
    * @throws      an IllegalArgumentException when string param is null
-   * @throws      RuntimeException when the addressBook is empty
+   * @throws      IndexOutOfBoundsException when the AddressBook is empty
    * @throws      AssertionError when property param is not the one
    *              in enum
    */
@@ -129,7 +131,7 @@ public class AddressBook {
     }
     if(list.isEmpty()){
       logger.warning("Error: No entry in addressbook");
-      throw new RuntimeException("Can't be empty");
+      throw new IndexOutOfBoundsException("AddressBook is empty");
     }
     
     ArrayList<Entry> searchResult = new ArrayList<Entry>();
@@ -178,11 +180,11 @@ public class AddressBook {
   
   /**
    * Save method writes all the entries using toString method
-   * of the addressbook to file specified.
+   * of the AddressBook to file specified.
    * It writes using BufferedWriter object thus NOT using serialization 
    * property of ArrayList.
    *  
-   * @param       filename to which the addressbook should be written 
+   * @param       filename to which the AddressBook should be written 
    * @throws      an IllegalArgumentException when filename is null
    * @throws      IOException when the bufferedWriter encounters problems
    *              during write operation. This is handled by try-catch
@@ -208,7 +210,7 @@ public class AddressBook {
   
   /**
    * Read method reads a file line by line and loads data into Arraylist
-   * of addressbook. This is achieved by BufferedReader's read method thus
+   * of AddressBook. This is achieved by BufferedReader's read method thus
    * NOT using serialization of Arraylist.
    *  
    * @param       filename from which the arraylist should be loaded 
@@ -254,7 +256,7 @@ public class AddressBook {
   /**
    * Equals is overriden method of Object. It checks if two AddressBook
    * objects are similar by content by also checking if they have same
-   * reference. This is acheived by using toString method of class
+   * reference.
    *  
    * @return      boolean value i.e. true if objects are similar else 
    *              false
@@ -268,25 +270,36 @@ public class AddressBook {
       return false;
     }
     AddressBook newAddress = (AddressBook)obj;
-    if((this != null 
-        && getList().toString().equals(newAddress.getList().toString()))
-        || (this == null && newAddress == null)){
+    if(this != null && newAddress != null 
+        && this.list == null && newAddress.getList() == null){
+      return true;
+    }
+    if(this != null && this.list != null && newAddress.getList() != null
+        && this.list.size() == newAddress.getList().size()){
+      ArrayList<Entry> entries = newAddress.getList();
+      for(int i = 0; i < list.size() ; i++){
+        if(!(list.get(i).equals(entries.get(i)))){
+          return false;
+        }
+      }
       return true;
     }
     return false;
   }
   
   /**
-   * Hashcode method returns hash value of all the entries present in
-   * arraylist of addressbook by converting them into string.
+   * hashcode method returns hash value of all the entries present in
+   * arraylist of AddressBook.
    *  
-   * @return      hashcode of addressbook object
+   * @return      hashcode of AddressBook object
    */
   @Override
   public int hashCode() {
     int result = hashcode;
     if(result == 0){
-      result = 17 + this.toString().hashCode();
+      for(Entry entry: list){
+        result = 17 + entry.hashCode();
+      }
       hashcode = result;
     }
     return hashcode;
@@ -296,14 +309,10 @@ public class AddressBook {
    * toString method traverses through all the entries while converting 
    * them to string.
    *  
-   * @return      string of content of object addressbook
+   * @return      string of content of object AddressBook
    */
   @Override
   public String toString(){
-    if(list.isEmpty()){
-      logger.warning("Error: No entry in addressbook");
-      throw new RuntimeException("Can't be empty");
-    }
     StringBuffer result = new StringBuffer();
     for(Entry entry: list){
       result.append(entry.toString() + "\n");

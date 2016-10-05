@@ -1,5 +1,7 @@
 package nyu.edu.ps1;
 
+import java.util.ArrayList;
+
 public class Main {
   public static void main(String args[]){
     AddressBook addressbook = AddressBook.newInstance();
@@ -22,7 +24,10 @@ public class Main {
     addressbook.save("AddressBook.txt");
     addressbook.read("AddressBook.txt");
     addressbook.remove(entry2);
-    addressbook.save("AddressBook1.txt");
+    //addressbook.save("AddressBook1.txt");
+    
+    ArrayList<Entry> searchResults = addressbook.search(Property.NAME, "Simon");
+    
     
   }
 }
