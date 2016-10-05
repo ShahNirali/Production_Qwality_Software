@@ -20,7 +20,7 @@ public class Entry {
   private String note;
   
   private int hashcode;
-  
+ 
   /**
    * This class is used to form Entry object with required and optional 
    * member fields name, postaladdress, phonenumber, emailaddress and note.

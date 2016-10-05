@@ -25,7 +25,7 @@ public class Main {
     addressbook.read("AddressBook.txt");
     addressbook.remove(entry2);
     //addressbook.save("AddressBook1.txt");
-    
+   
     ArrayList<Entry> searchResults = addressbook.search(Property.NAME, "Simon");
     
     
