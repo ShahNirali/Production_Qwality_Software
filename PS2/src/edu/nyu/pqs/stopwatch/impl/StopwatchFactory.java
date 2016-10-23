@@ -13,7 +13,7 @@ import edu.nyu.pqs.stopwatch.api.Stopwatch;
  */
 public class StopwatchFactory {
 
-  private static final List<Stopwatch> StopwatchCollection = new ArrayList<Stopwatch>();
+  private static final List<Stopwatch> stopwatchCollection = new ArrayList<Stopwatch>();
   
   /**
    * Creates and returns a new Stopwatch object
@@ -32,8 +32,8 @@ public class StopwatchFactory {
         throw new IllegalArgumentException("Stopwatch identifier already present");
       }
     }
-    Stopwatch stopwatch = new StopwatchImpl(id);
-    StopwatchCollection.add(stopwatch);
+    Stopwatch stopwatch = new StopwatchDriver(id);
+    stopwatchCollection.add(stopwatch);
     return stopwatch;
   }
 
@@ -43,6 +43,6 @@ public class StopwatchFactory {
    * list if no Stopwatches have been created.
    */
   public static List<Stopwatch> getStopwatches() {
-    return StopwatchCollection;
+    return stopwatchCollection;
   }
 }
