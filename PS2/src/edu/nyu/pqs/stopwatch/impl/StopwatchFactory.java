@@ -1,5 +1,6 @@
 package edu.nyu.pqs.stopwatch.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
@@ -12,6 +13,8 @@ import edu.nyu.pqs.stopwatch.api.Stopwatch;
  */
 public class StopwatchFactory {
 
+  private static final List<Stopwatch> StopwatchCollection = new ArrayList<Stopwatch>();
+  
   /**
    * Creates and returns a new Stopwatch object
    * @param id The identifier of the new object
@@ -20,8 +23,18 @@ public class StopwatchFactory {
    *     already taken.
    */
   public static Stopwatch getStopwatch(String id) {
-    // replace this return statement with correct code
-    return null;
+    if (id == null || id.isEmpty()) {
+      throw new IllegalArgumentException("Stopwatch identifier can't be empty");
+    }
+    List<Stopwatch> stopwatches = getStopwatches();
+    for (Stopwatch stopwatch: stopwatches) {
+      if (stopwatch.getId().equals(id)) {
+        throw new IllegalArgumentException("Stopwatch identifier already present");
+      }
+    }
+    Stopwatch stopwatch = new StopwatchImpl(id);
+    StopwatchCollection.add(stopwatch);
+    return stopwatch;
   }
 
   /**
@@ -30,6 +43,6 @@ public class StopwatchFactory {
    * list if no Stopwatches have been created.
    */
   public static List<Stopwatch> getStopwatches() {
-    return null;
+    return StopwatchCollection;
   }
 }
