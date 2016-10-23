@@ -18,7 +18,7 @@ equals and hashcode method is missing.
 AddressBook.java
 1. As the class is immutable, it doesn't follow the rule of immutabilty: making all fields final.
 
-2. Should check if the parameters passed in search, add, serialze, deserialze methods is not null. 
+2. Should check if the parameters passed in search, add, serialize, deserialize methods is not null. 
 If they are null, then should throw exception.
 
 3. As the AddressBook allows duplicate values, during search operation, it should find all the occurrences
@@ -34,4 +34,7 @@ is not not handled.
 
 7. Constructor produces compile-time error, as the generic type of ArrayList is not specified.
 
-8. Deserialize method could be simplified by using String.split in-built function.
+8. Deserialize method could be simplified by using String.split in-built function. No need to use indexOf("\")
+
+9. deserialize and serialize method should be private and not public as they are internally called by 
+readObject and writeObject methods (hide as many implementation details from user as possible).
