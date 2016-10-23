@@ -1,2 +1,37 @@
 Please enter your code review in this file as plain text
 and make sure to include it when you commit your project.
+
+AddressBookEntry.java
+1. As the class is immutable, it doesn't follow the rule of immutabilty: making all fields final.
+
+2. All the property of AddressBookEntry isn't mandatory. When some other class uses this entry class,
+they would be obligated to pass all the parameters. Consider using Builder pattern so as to distinguish between 
+mandatory parameters and optional parameters.
+
+3. Missing toString method.
+
+4. Two entries are considered same if they are logically same as well as physically same, implementation of 
+equals and hashcode method is missing.
+
+5. Javadocs convention not followed for paramerterized constructor.
+
+AddressBook.java
+1. As the class is immutable, it doesn't follow the rule of immutabilty: making all fields final.
+
+2. Should check if the parameters passed in search, add, serialze, deserialze methods is not null. 
+If they are null, then should throw exception.
+
+3. As the AddressBook allows duplicate values, during search operation, it should find all the occurrences
+of the value in the AddressBook. However, if the search method only supports to find first occurrence of value,
+that should be reflected in the javadocs.
+
+4. Remove method will throw exception when the AddressBook is empty as there is no handling of this case.
+
+5. Missing toString method.
+
+6. readObject, writeObject methods will throw FileNotFound Exception when file is not found. This exception 
+is not not handled.
+
+7. Constructor produces compile-time error, as the generic type of ArrayList is not specified.
+
+8. Deserialize method could be simplified by using String.split in-built function.
