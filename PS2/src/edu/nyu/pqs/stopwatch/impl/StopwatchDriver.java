@@ -5,16 +5,14 @@ import java.util.List;
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 import edu.nyu.pqs.stopwatch.api.State;
 
-public class StopwatchDriver implements Stopwatch{
+public class StopwatchDriver implements Stopwatch {
   private final String id;
   private State state;
-  private List<Long> lap;
-  private Long timeElapsed;
+  private List<Long> lap = new ArrayList<Long>();
   
   public StopwatchDriver (String id) {
     this.id = id;
     this.state = State.BLOCK;
-    this.lap = new ArrayList<Long>();
   }
   
   @Override
@@ -28,8 +26,7 @@ public class StopwatchDriver implements Stopwatch{
       throw new IllegalStateException("Stopwatch is alredy in running state");
     }
     this.state = State.RUNNING;
-    this.timeElapsed = System.currentTimeMillis();
-    this.lap.add(0L);
+    this.lap.add(System.currentTimeMillis());
   }
 
   @Override
@@ -38,9 +35,8 @@ public class StopwatchDriver implements Stopwatch{
       throw new IllegalStateException("Stopwatch is not running");
     }
     synchronized (lap) {
-      this.lap.add(System.currentTimeMillis() - this.timeElapsed);
+      this.lap.add(System.currentTimeMillis() - this.lap.get(lap.size()-1));
     }
-    this.timeElapsed = System.currentTimeMillis();
   }
 
   @Override
@@ -52,13 +48,19 @@ public class StopwatchDriver implements Stopwatch{
   @Override
   public void reset() {
     this.state = State.BLOCK;
-    lap.clear();
-    this.timeElapsed = 0L;
+    synchronized (lap) {
+      lap.clear();
+    }
   }
 
   @Override
   public List<Long> getLapTimes() {
     return lap;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    return false;
   }
   
   @Override
@@ -68,7 +70,13 @@ public class StopwatchDriver implements Stopwatch{
   
   @Override
   public String toString() {
-    return this.id + "|" + this.lap.toString();
+    StringBuffer result = new StringBuffer();
+    result.append(this.getId()).append("|");
+    for (Long lapTimes: lap) {
+      result.append(Long.valueOf(lapTimes)).append(",");
+    }
+    result.append("|").append(state);
+    return result.toString();
   }
 
 }
