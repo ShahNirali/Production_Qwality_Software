@@ -18,21 +18,21 @@ equals and hashcode method is missing.
 AddressBook.java
 1. As the class is immutable, it doesn't follow the rule of immutabilty: making all fields final.
 
-2. Should check if the parameters passed in search, add, serialize, deserialize methods is not null. 
+2. Check for the parameters passed in search, add, serialize, deserialize methods for null values is missing. 
 If they are null, then should throw exception.
 
-3. As the AddressBook allows duplicate values, during search operation, it should find all the occurrences
+3. As the AddressBook allows duplicate values, during search operation, it doesn't find all the occurrences
 of the value in the AddressBook. However, if the search method only supports to find first occurrence of value,
-that should be reflected in the javadocs.
+that is not reflected in the javadocs.
 
 4. Remove method will throw exception when the AddressBook is empty as there is no handling of this case.
 
 5. Missing toString method.
 
 6. readObject, writeObject methods will throw FileNotFound Exception when file is not found. This exception 
-is not not handled.
+is not handled.
 
-7. Constructor produces compile-time error, as the generic type of ArrayList is not specified.
+7. Constructor produces compile-time error, as the generic type of ArrayList is not specified in the constructor.
 
 8. Deserialize method could be simplified by using String.split in-built function. No need to use indexOf("\")
 
