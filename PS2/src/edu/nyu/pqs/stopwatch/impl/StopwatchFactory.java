@@ -1,6 +1,7 @@
 package edu.nyu.pqs.stopwatch.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
@@ -13,8 +14,8 @@ import edu.nyu.pqs.stopwatch.api.Stopwatch;
  */
 public class StopwatchFactory {
 
-  private static final List<Stopwatch> stopwatchCollection = new ArrayList<Stopwatch>();
-  
+  private static final List<Stopwatch> stopwatchCollection = Collections.synchronizedList(new ArrayList<Stopwatch>());
+ 
   /**
    * Creates and returns a new Stopwatch object
    * @param id The identifier of the new object
