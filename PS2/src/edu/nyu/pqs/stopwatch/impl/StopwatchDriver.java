@@ -5,6 +5,14 @@ import java.util.List;
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 import edu.nyu.pqs.stopwatch.api.State;
 
+/**
+ * StopwatchDriver is a library that implements Stopwatch interface 
+ * and provides thread-safe methods to start, stop, reset, lap, getlapTimes 
+ * of stopwatch. It also provides implementation of equals, hashCode and toString
+ * methods in accordance with properties of stopwatch.
+ * 
+ *  
+ */
 public class StopwatchDriver implements Stopwatch {
   private final String id;
   private State state = State.BLOCK;
@@ -40,11 +48,17 @@ public class StopwatchDriver implements Stopwatch {
     lap.clear();
   }
   
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public String getId() {
     return this.id;
   }
-
+  
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public void start() {
     if (this.state == State.RUNNING) {
@@ -54,6 +68,9 @@ public class StopwatchDriver implements Stopwatch {
     addLap();
   }
 
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public void lap() {
     if (this.state == State.BLOCK) {
@@ -62,23 +79,35 @@ public class StopwatchDriver implements Stopwatch {
     addLap();
   }
 
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public void stop() {
     lap();
     changeState(State.BLOCK);
   }
 
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public void reset() {
     changeState(State.BLOCK);
     clearLap();
   }
 
+  /*
+   * Refer javadoc of Stopwatch interface
+   */
   @Override
   public List<Long> getLapTimes() {
     return lap;
   }
   
+  /*
+   * Refer javadoc of Object
+   */
   @Override
   public boolean equals(Object o) {
     if (o == this) {
@@ -103,6 +132,9 @@ public class StopwatchDriver implements Stopwatch {
     return false;
   }
   
+  /*
+   * Refer javadoc of Object
+   */
   @Override
   public int hashCode() {
     int result = 17;
@@ -115,6 +147,9 @@ public class StopwatchDriver implements Stopwatch {
     return result;
   }
   
+  /*
+   * Refer javadoc of Object
+   */
   @Override
   public String toString() {
     StringBuffer result = new StringBuffer();
