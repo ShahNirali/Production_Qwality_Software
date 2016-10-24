@@ -44,6 +44,6 @@ public class StopwatchFactory {
    * list if no Stopwatches have been created.
    */
   public static List<Stopwatch> getStopwatches() {
-    return stopwatchCollection;
+    return Collections.unmodifiableList(stopwatchCollection);
   }
 }
