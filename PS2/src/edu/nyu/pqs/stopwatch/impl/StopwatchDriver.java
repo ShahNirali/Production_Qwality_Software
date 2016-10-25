@@ -56,8 +56,6 @@ public class StopwatchDriver implements Stopwatch {
       }
       timeElapsed = System.currentTimeMillis();
     }
-    
-    
   }
 
   @Override
