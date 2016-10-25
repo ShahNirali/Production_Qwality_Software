@@ -19,7 +19,7 @@ public class StopwatchDriver implements Stopwatch {
   private State state = State.BLOCK;
   private List<Long> lap = new ArrayList<Long>();
   private long timeElapsed = 0L;
-  private boolean lapAdded = false;
+  private boolean actualLap = false;
   
   public StopwatchDriver (String id) {
     this.id = id;
@@ -47,11 +47,11 @@ public class StopwatchDriver implements Stopwatch {
       throw new IllegalStateException("Stopwatch is not running");
     }
     synchronized (this) {
-      if (lapAdded == Boolean.TRUE) {
+      if (actualLap == Boolean.TRUE) {
         long lastLap = lap.get(lap.size() - 1);
         lap.remove(lap.size() - 1);
         lap.add (lastLap + (System.currentTimeMillis() - timeElapsed));
-        lapAdded = false;
+        actualLap = false;
       } else {
         lap.add (System.currentTimeMillis() - timeElapsed);
       }
@@ -65,13 +65,13 @@ public class StopwatchDriver implements Stopwatch {
       throw new IllegalStateException("Stopwatch is not running");
     }
     synchronized (this) {
-      if (lapAdded == Boolean.TRUE) {
+      if (actualLap == Boolean.TRUE) {
         long lastLap = lap.get(lap.size() - 1);
         lap.remove(lap.size() - 1);
         lap.add (lastLap + (System.currentTimeMillis() - timeElapsed));
       } else {
         lap.add (System.currentTimeMillis() - timeElapsed);
-        lapAdded = true;
+        actualLap = true;
       }
       timeElapsed = System.currentTimeMillis();
       state = State.BLOCK;
@@ -82,7 +82,7 @@ public class StopwatchDriver implements Stopwatch {
   public void reset() {
     synchronized (this) {
       state = State.BLOCK;
-      lapAdded = false;
+      actualLap = false;
       timeElapsed = 0L;
       lap.clear();
     }
