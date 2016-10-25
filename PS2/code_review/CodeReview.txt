@@ -13,7 +13,9 @@ mandatory parameters and optional parameters.
 4. Two entries are considered same if they are logically same as well as physically same, implementation of 
 equals and hashcode method is missing.
 
-5. Javadocs convention not followed for paramerterized constructor.
+5. deserialize is static whereas serialize is non-static. Both should be either static or non-static.
+
+6. Javadocs convention not followed for paramerterized constructor.
 
 AddressBook.java
 1. As the class is immutable, it doesn't follow the rule of immutabilty: making all fields final.
@@ -38,3 +40,6 @@ is not handled.
 
 9. deserialize and serialize method should be private and not public as they are internally called by 
 readObject and writeObject methods (hide as many implementation details from user as possible).
+
+10. writeObject and readObject both should be either static or non-static. writeObject is non-static whereas
+readObject is static. 
