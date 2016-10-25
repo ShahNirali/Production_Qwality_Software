@@ -27,26 +27,8 @@ public class StopwatchDriver implements Stopwatch {
    * Synchronizing object of StopwatchDriver to add lap times
    */
   private synchronized void addLap() {
-    if (lap.isEmpty()) {
-      lap.add(0L);
-    } else {
-      lap.add (System.currentTimeMillis() - timeElapsed);
-    }
+    lap.add (System.currentTimeMillis() - timeElapsed);
     timeElapsed = System.currentTimeMillis();
-  }
-  
-  /*
-   * Synchronizing object of StopwatchDriver to change state
-   */
-  private synchronized void changeState(State state) {
-    this.state = state;
-  }
-  
-  /*
-   * Synchronizing object of StopwatchDriver to clear Lap
-   */
-  private synchronized void clearLap() {
-    lap.clear();
   }
   
   @Override
@@ -59,8 +41,10 @@ public class StopwatchDriver implements Stopwatch {
     if (state == State.RUNNING) {
       throw new IllegalStateException("Stopwatch is alredy in running state");
     }
-    changeState(State.RUNNING);
-    addLap();
+    synchronized (this) {
+      state = State.RUNNING;
+      timeElapsed = System.currentTimeMillis();
+    }
   }
 
   @Override
@@ -74,13 +58,17 @@ public class StopwatchDriver implements Stopwatch {
   @Override
   public void stop() {
     lap();
-    changeState(State.BLOCK);
+    synchronized (this) {
+      state = State.BLOCK;
+    }
   }
 
   @Override
   public void reset() {
-    changeState(State.BLOCK);
-    clearLap();
+    synchronized (this) {
+      state = State.BLOCK;
+      lap.clear();
+    }
   }
 
   @Override
