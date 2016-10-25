@@ -14,8 +14,8 @@ import edu.nyu.pqs.stopwatch.api.Stopwatch;
  */
 public class StopwatchFactory {
 
-  private static final List<Stopwatch> stopwatchCollection = Collections.synchronizedList(new ArrayList<Stopwatch>());
- 
+  private static final List<Stopwatch> stopwatchCollection = new ArrayList<Stopwatch>();
+  private static final Object lock = new Object();
   /**
    * Creates and returns a new Stopwatch object
    * @param id The identifier of the new object
@@ -33,8 +33,11 @@ public class StopwatchFactory {
         throw new IllegalArgumentException("Stopwatch identifier already present");
       }
     }
-    Stopwatch stopwatch = new StopwatchDriver(id);
-    stopwatchCollection.add(stopwatch);
+    Stopwatch stopwatch = null;
+    synchronized (lock) {
+      stopwatch = new StopwatchDriver(id);
+      stopwatchCollection.add(stopwatch);
+    }
     return stopwatch;
   }
 
@@ -44,6 +47,6 @@ public class StopwatchFactory {
    * list if no Stopwatches have been created.
    */
   public static List<Stopwatch> getStopwatches() {
-    return Collections.unmodifiableList(stopwatchCollection);
+    return stopwatchCollection;
   }
 }

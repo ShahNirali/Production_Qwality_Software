@@ -1,11 +1,8 @@
 package edu.nyu.pqs.stopwatch.impl;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.List;
-
 import org.junit.Test;
-
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 
 public class TestStopwatchFactory {
@@ -35,6 +32,5 @@ public class TestStopwatchFactory {
     List<Stopwatch> stopwatches = StopwatchFactory.getStopwatches();
     assertEquals(stopwatches.contains(stopwatch1), Boolean.TRUE);
   }
-  
 
 }
