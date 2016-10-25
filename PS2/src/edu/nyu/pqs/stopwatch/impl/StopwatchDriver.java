@@ -1,6 +1,7 @@
 package edu.nyu.pqs.stopwatch.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 import edu.nyu.pqs.stopwatch.api.State;
@@ -89,7 +90,7 @@ public class StopwatchDriver implements Stopwatch {
 
   @Override
   public List<Long> getLapTimes() {
-    return lap;
+    return Collections.unmodifiableList(lap);
   }
 
   @Override
