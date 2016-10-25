@@ -2,7 +2,6 @@ package edu.nyu.pqs.stopwatch.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 
 /**
