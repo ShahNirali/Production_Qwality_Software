@@ -81,6 +81,8 @@ public class StopwatchDriver implements Stopwatch {
   public void reset() {
     synchronized (this) {
       state = State.BLOCK;
+      lapAdded = false;
+      timeElapsed = 0L;
       lap.clear();
     }
   }
