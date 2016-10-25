@@ -17,6 +17,7 @@ public class StopwatchDriver implements Stopwatch {
   private final String id;
   private State state = State.BLOCK;
   private List<Long> lap = new ArrayList<Long>();
+  private long timeElapsed = 0L;
   
   public StopwatchDriver (String id) {
     this.id = id;
@@ -27,11 +28,11 @@ public class StopwatchDriver implements Stopwatch {
    */
   private synchronized void addLap() {
     if (lap.isEmpty()) {
-      lap.add(System.currentTimeMillis());
+      lap.add(0L);
+    } else {
+      lap.add (System.currentTimeMillis() - timeElapsed);
     }
-    else {
-      lap.add(System.currentTimeMillis() - this.lap.get(lap.size()-1));
-    }
+    timeElapsed = System.currentTimeMillis();
   }
   
   /*
@@ -48,66 +49,45 @@ public class StopwatchDriver implements Stopwatch {
     lap.clear();
   }
   
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public String getId() {
-    return this.id;
+    return id;
   }
   
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public void start() {
-    if (this.state == State.RUNNING) {
+    if (state == State.RUNNING) {
       throw new IllegalStateException("Stopwatch is alredy in running state");
     }
     changeState(State.RUNNING);
     addLap();
   }
 
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public void lap() {
-    if (this.state == State.BLOCK) {
+    if (state == State.BLOCK) {
       throw new IllegalStateException("Stopwatch is not running");
     }
     addLap();
   }
 
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public void stop() {
-    addLap();
+    lap();
     changeState(State.BLOCK);
   }
 
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public void reset() {
     changeState(State.BLOCK);
     clearLap();
   }
 
-  /*
-   * Refer javadoc of Stopwatch interface
-   */
   @Override
   public List<Long> getLapTimes() {
     return lap;
   }
-  
-  /*
-   * Refer javadoc of Object
-   */
+
   @Override
   public boolean equals(Object o) {
     if (o == this) {
@@ -131,10 +111,7 @@ public class StopwatchDriver implements Stopwatch {
     }
     return false;
   }
-  
-  /*
-   * Refer javadoc of Object
-   */
+
   @Override
   public int hashCode() {
     int result = 17;
@@ -146,10 +123,7 @@ public class StopwatchDriver implements Stopwatch {
     }
     return result;
   }
-  
-  /*
-   * Refer javadoc of Object
-   */
+
   @Override
   public String toString() {
     StringBuffer result = new StringBuffer();
