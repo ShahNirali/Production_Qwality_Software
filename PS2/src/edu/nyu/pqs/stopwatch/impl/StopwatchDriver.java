@@ -18,17 +18,10 @@ public class StopwatchDriver implements Stopwatch {
   private State state = State.BLOCK;
   private List<Long> lap = new ArrayList<Long>();
   private long timeElapsed = 0L;
+  private boolean lapAdded = false;
   
   public StopwatchDriver (String id) {
     this.id = id;
-  }
-  
-  /*
-   * Synchronizing object of StopwatchDriver to add lap times
-   */
-  private synchronized void addLap() {
-    lap.add (System.currentTimeMillis() - timeElapsed);
-    timeElapsed = System.currentTimeMillis();
   }
   
   @Override
@@ -52,13 +45,36 @@ public class StopwatchDriver implements Stopwatch {
     if (state == State.BLOCK) {
       throw new IllegalStateException("Stopwatch is not running");
     }
-    addLap();
+    synchronized (this) {
+      if (lapAdded == Boolean.TRUE) {
+        long lastLap = lap.get(lap.size() - 1);
+        lap.remove(lap.size() - 1);
+        lap.add (lastLap + (System.currentTimeMillis() - timeElapsed));
+        lapAdded = false;
+      } else {
+        lap.add (System.currentTimeMillis() - timeElapsed);
+      }
+      timeElapsed = System.currentTimeMillis();
+    }
+    
+    
   }
 
   @Override
   public void stop() {
-    lap();
+    if (state == State.BLOCK) {
+      throw new IllegalStateException("Stopwatch is not running");
+    }
     synchronized (this) {
+      if (lapAdded == Boolean.TRUE) {
+        long lastLap = lap.get(lap.size() - 1);
+        lap.remove(lap.size() - 1);
+        lap.add (lastLap + (System.currentTimeMillis() - timeElapsed));
+      } else {
+        lap.add (System.currentTimeMillis() - timeElapsed);
+        lapAdded = true;
+      }
+      timeElapsed = System.currentTimeMillis();
       state = State.BLOCK;
     }
   }
