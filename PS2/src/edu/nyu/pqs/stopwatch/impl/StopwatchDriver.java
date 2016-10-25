@@ -127,11 +127,8 @@ public class StopwatchDriver implements Stopwatch {
   @Override
   public String toString() {
     StringBuffer result = new StringBuffer();
-    result.append(this.getId()).append("|");
-    for (Long lapTimes: lap) {
-      result.append(Long.valueOf(lapTimes)).append(",");
-    }
-    result.append("|").append(state);
+    result.append("[Id:").append(getId()).append(", ").append("Laps: ").append(lap.toString()).append(", ");
+    result.append("State: ").append(state == State.RUNNING ? "running" : "not_running").append("]");
     return result.toString();
   }
 
