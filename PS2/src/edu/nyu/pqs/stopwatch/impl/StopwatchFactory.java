@@ -25,14 +25,14 @@ public class StopwatchFactory {
     if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("Stopwatch identifier can't be empty");
     }
-    List<Stopwatch> stopwatches = getStopwatches();
-    for (Stopwatch stopwatch: stopwatches) {
-      if (stopwatch.getId().equals(id)) {
-        throw new IllegalArgumentException("Stopwatch identifier already present");
-      }
-    }
     Stopwatch stopwatch = null;
     synchronized (lock) {
+      List<Stopwatch> stopwatches = getStopwatches();
+      for (Stopwatch stopwatch1: stopwatches) {
+        if (stopwatch1.getId().equals(id)) {
+          throw new IllegalArgumentException("Stopwatch identifier already present");
+        }
+      }
       stopwatch = new StopwatchDriver(id);
       stopwatchCollection.add(stopwatch);
     }
