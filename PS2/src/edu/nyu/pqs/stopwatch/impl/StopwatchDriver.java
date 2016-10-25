@@ -84,7 +84,7 @@ public class StopwatchDriver implements Stopwatch {
    */
   @Override
   public void stop() {
-    lap();
+    addLap();
     changeState(State.BLOCK);
   }
 
