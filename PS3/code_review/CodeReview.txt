@@ -1,2 +1,59 @@
 Please enter your code review in this file as plain text
 and make sure to include it when you commit your project.
+
+StopwatchFactory class:
+
+1. StopwatchFactory:getStopwatches:#16: Not use hashtable to store stopwatch object. Instead the author could have used Map so that a user can have null as key value.
+2. Thought returning from synchronized block released the lock appropriately, a good style for StopwatchFactory:getStopwatch:#40 would be
+Stopwatch newStopwatch = null;
+synchronized (stopwatches) {
+  if (stopwatches.containsKey(id.toLowerCase())) {
+    throw new IllegalArgumentException("The given ID is alreay in use");
+  }
+  newStopwatch = new StopWatchImplementation(id.toLowerCase());
+  stopwatches.put(id.toLowerCase(), newStopwatch); 
+}
+return newStopwatch;
+    
+Similarly for StopwatchFactory:getStopwatches:#52. Better practice is:
+List<Stopwatch> stopwatchCollection = null;
+synchronized (stopwatches) {
+  stopwatchCollection = new ArrayList<Stopwatch>(stopwatches.values());
+}
+return stopwatchCollection;
+
+3. StopwatchFactory:getStopwatch:#35, #39 :The author is converting stopwatch id to lowercase before storing into stopwatches. This means that stopwatch with id "THREAD1" is same as stopwatch with id "thread1". 
+This is false. Stopwatch with id "THREAD1" is different from "thread1".
+4. StopwatchFactory:#26 :Unwanted "\r" on this line.
+5. StopwatchFactory:#7 :Incorrect import ordering. edu.nyu files should be imported before java ones.
+
+StopWatchImplementation class:
+
+- StopWatchImplementation:#8 :Incorrect import ordering. edu.nyu files should be imported before java ones.
+- StopWatchImplementation:#30 :No need of having CocurrentHastTable to store lap times as it is using more space than required. Without ConcurrentHashtable, the lapTimes can be stored in ArrayList. 
+- StopWatchImplementation:getLapTimes() :A good style is not to return any object or value from synchronized block. Instead the author could have done:
+List<Long> laps = null;
+synchronized (lock) {
+  laps = new ArrayList<>(lapTimes.values());
+}
+return laps;
+
+Similarlly, for toString(): the author could have done following:
+StringBuilder res = null;
+synchronized (lock) {
+  res = new StringBuilder(
+    "Stopwatch ID: " + id + "\t State:" + currentState + "\n");
+  if (lapTimes.size() > 0) {
+    res.append("Current laps in this stopwatch are: \n");
+    for (int lap : lapTimes.keySet()) {
+      res.append("Lap " + lap + ": " + lapTimes.get(lap) + " milliSeconds\n");
+    }
+  }
+}
+return res.toString();
+- StopWatchImplementation#stop: not thread safe: consider both thread1 and thread2 are running stop() 
+right after thread1 ensured that the stopwatch is stopped, but before it updates current state, 
+thread2 also see the stopwatch is running and successfully stop again without throwing IllegalStateException. 
+To aviod this the author could first call lap and then use synchronize(lock) to check if the state is running and throw exception accordingly.
+- Start->Lap->Stop->Start. It should output: [1000], Author's output: [1000, 1000]
+ 
