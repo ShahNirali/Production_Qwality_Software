@@ -55,6 +55,6 @@ return res.toString();
 right after thread1 ensured that the stopwatch is stopped, but before it updates current state, 
 thread2 also see the stopwatch is running and successfully stop again without throwing IllegalStateException. 
 To aviod this the author could first call lap and then use synchronize(lock) to check if the state is running and throw exception accordingly.
-- Start->Lap->Stop->Start. It should output: [1000], Author's output: [1000, 1000]
+- Start->Lap->Stop->Start. It should output: [2], Author's output: [2, 0] as there is no lap recorded as its just starting the stopwatch.
 - StopWatchImplementation and its constructor should be package-private as client code outside the package shouldn't instantiate your object. 
  
