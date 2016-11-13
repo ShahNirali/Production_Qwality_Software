@@ -1,10 +1,12 @@
+
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertNotEquals;
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 
 /* The declared package pqs_163 in AddressBook.java:#1 and 
  * AddressBookEntry.java#1 makes these classes non accessible.
@@ -68,7 +70,7 @@ public class AddressBookTest {
    * It inserts an entry to AddressBook with name = "\n" which shouldn't be the case
    */
   @Test
-  public void testAddNewContact_nameWithNewLineOnly() {
+  public void testAddNewContact_NameWithNewLineOnly() {
     AddressBook addressbook = new AddressBook();
     assertFalse(addressbook.addNewContact("\n", null, null, null, null));
   }
@@ -178,6 +180,25 @@ public class AddressBookTest {
         "jill@nyu.edu", "Collegemate"));
     List<AddressBookEntry> entries = addressbook.searchAddressBook("Joe");
     assertEquals(0, entries.size());
+  }
+  
+  /*
+   * Bug - searchAddressBook() returns ArrayList. So when search result are 
+   * stored in Stack object, it throws ClassCastException. 
+   * The author should use interfaces for declaration, not concrete class.
+   */
+  @Test
+  public void testSearchAddressBook_StoreResultToStack() {
+    AddressBook addressbook = new AddressBook();
+    assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
+        "aqua@nyu.edu", "Schoolmate"));
+    assertTrue(addressbook.addNewContact("Kehan", "+12345678", null, 
+        "kehan@nyu.edu", "Schoolmate"));
+    assertTrue(addressbook.addNewContact("Jill", "+12345678", null, 
+        "jill@nyu.edu", "Collegemate"));
+    List<AddressBookEntry> entries = new Stack<AddressBookEntry>();
+    entries = addressbook.searchAddressBook("Aqua");
+    assertEquals("Aqua", ((Stack<AddressBookEntry>) entries).pop().getName());
   }
   
   @Test
@@ -339,17 +360,46 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSaveToFile_WithNulls() {
+  public void testSaveToFileAndReadFromFile_SameEntry() {
     AddressBook addressBook = new AddressBook();
-    addressBook.addNewContact("Helen", null, null, null, null);
-    addressBook.addNewContact("Umber", "+91234533455", null, null, null);
-    addressBook.addNewContact("Gabriel", null, "251 Mercer St", null, null);
-    addressBook.addNewContact("Hummus", null, null, "nyu.edu", null);
-    addressBook.addNewContact("Katie", null, null, null, "advisor");
+    assertTrue(addressBook.addNewContact("Helen", null, null, null, null));
+    AddressBook newBook = null;
     try {
       addressBook.saveToFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
     } catch (IOException e) { }
+    assertEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
+        newBook.searchAddressBook("Helen").get(0).toString());
   }
   
+  /*
+   * Bug - Author assues null = "" which is wrong. Broken for fields with null and "".
+   * AddressBookEntry ("Helen", null, null, null, null) != 
+   * ("Helen", "", "", null, null)
+   */
+  @Test
+  public void testSaveToFileAndReadFromFile_DifferentEntry() {
+    AddressBook addressBook = new AddressBook();
+    assertTrue(addressBook.addNewContact("Helen", "", "", null, null));
+    AddressBook newBook = null;
+    try {
+      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+    } catch (IOException e) { }
+    assertNotEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
+        newBook.searchAddressBook("Helen").get(0).toString());
+  }
+  
+  @Test
+  public void testSaveToFileAndReadFromFile_EntryWithNewLineCharacter() {
+    AddressBook addressBook = new AddressBook();
+    assertTrue(addressBook.addNewContact("Helen", "\n \n", "251,Mercer St", "example.edu", null));
+    AddressBook newBook = null;
+    try {
+      addressBook.saveToFile("/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
+      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
+    } catch (IOException e) { }
+    assertEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
+        newBook.searchAddressBook("Helen").get(0).toString());
+  }
 }
 
