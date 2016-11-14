@@ -473,6 +473,5 @@ public class AddressBookTest {
     } catch (IOException e) { }
     assertEquals(2, addressBook.searchAddressBook("Helen").size());
   }
-  
 }
 
