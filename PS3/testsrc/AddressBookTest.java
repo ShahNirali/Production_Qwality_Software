@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
@@ -13,13 +14,6 @@ import java.util.Stack;
  * In order to test I commented the first line in both classes.
  */
 
-/**
- * This class is specifically for testing AddressBook.java
- * for correctness
- * 
- * @author nns271
- *
- */
 public class AddressBookTest {
   
   @Test
@@ -70,7 +64,7 @@ public class AddressBookTest {
    * It inserts an entry to AddressBook with name = "\n" which shouldn't be the case
    */
   @Test
-  public void testAddNewContact_NameWithNewLineOnly() {
+  public void testAddNewContact_nameWithNewLineOnly() {
     AddressBook addressbook = new AddressBook();
     assertFalse(addressbook.addNewContact("\n", null, null, null, null));
   }
@@ -102,7 +96,7 @@ public class AddressBookTest {
    * null is considered as empty string 
    */
   @Test
-  public void testAddAddressBookEntry_EmptyString() {
+  public void testAddAddressBookEntry_emptyString() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -158,7 +152,7 @@ public class AddressBookTest {
    * have null values present.
    */
   @Test (expected = IllegalArgumentException.class)
-  public void testSearchAddressBook_NullQuery() {
+  public void testSearchAddressBook_nullQuery() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -170,7 +164,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_QueryNotFound() {
+  public void testSearchAddressBook_queryNotFound() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -188,7 +182,7 @@ public class AddressBookTest {
    * The author should use interfaces for declaration, not concrete class.
    */
   @Test
-  public void testSearchAddressBook_StoreResultToStack() {
+  public void testSearchAddressBook_storeResultToStack() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -202,7 +196,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ExactStringMatch() {
+  public void testSearchAddressBook_exactStringMatch() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -220,7 +214,7 @@ public class AddressBookTest {
    * string search
    */
   @Test
-  public void testSearchAddressBook_PartialStringMatch() {
+  public void testSearchAddressBook_partialStringMatch() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -233,7 +227,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_SpecialCharacterMatch() {
+  public void testSearchAddressBook_specialCharacterMatch() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -246,7 +240,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ByName() {
+  public void testSearchAddressBook_byName() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -257,7 +251,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ByPhoneNumber() {
+  public void testSearchAddressBook_byPhoneNumber() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", null, 
         "aqua@nyu.edu", "Schoolmate"));
@@ -268,7 +262,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ByPostalAddress() {
+  public void testSearchAddressBook_byPostalAddress() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "251 Mercer Street", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -279,7 +273,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ByEmailAddress() {
+  public void testSearchAddressBook_byEmailAddress() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "251 Mercer Street", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -290,7 +284,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_ByNote() {
+  public void testSearchAddressBook_byNote() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "251 Mercer Street", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -299,7 +293,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_Spaces() {
+  public void testSearchAddressBook_usingSpaces() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Cooler Kids", "NA", "251,Mercer", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -311,7 +305,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_SpecialCharaterNewLine() {
+  public void testSearchAddressBook_specialCharaterNewLine() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Cooler\nKids", " ", "251,Mercer", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -323,7 +317,7 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSearchAddressBook_SpecialCharaterSpaceNewLineTabs() {
+  public void testSearchAddressBook_specialCharaterSpaceNewLineTabs() {
     AddressBook addressbook = new AddressBook();
     assertFalse(addressbook.addNewContact(" \n\t", " ", "251,Mercer", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -347,6 +341,18 @@ public class AddressBookTest {
     } catch (IOException filewrite) { }
   }
   
+  /*
+   * Bug - When a pathToFile is null, then readFromFile() should throw 
+   * IllegalArgumentException but author throws NullPointerException
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testSaveToFile_illegalArgument() {
+    AddressBook addressBook = new AddressBook();
+    try {
+      addressBook.saveToFile(null);
+    } catch (IOException e) { }
+  }
+  
   @Test
   public void testReadFromFile_simple() {
     AddressBook addressBook = new AddressBook();
@@ -356,11 +362,12 @@ public class AddressBookTest {
     } catch (StringIndexOutOfBoundsException | IOException fileread) { }
     List<AddressBookEntry> entries = newbook.searchAddressBook("Aqua");
     entries.addAll(newbook.searchAddressBook("Collegemate"));
-    assertEquals("Aqua +12345678 251 Mercer St aqua@nyu.edu Schoolmate", entries.get(0).toString());
+    assertEquals("Aqua +12345678 251 Mercer St aqua@nyu.edu Schoolmate", 
+        entries.get(0).toString());
   }
   
   @Test
-  public void testSaveToFileAndReadFromFile_SameEntry() {
+  public void testSaveToFileAndReadFromFile_sameEntry() {
     AddressBook addressBook = new AddressBook();
     assertTrue(addressBook.addNewContact("Helen", null, null, null, null));
     AddressBook newBook = null;
@@ -378,7 +385,7 @@ public class AddressBookTest {
    * ("Helen", "", "", null, null)
    */
   @Test
-  public void testSaveToFileAndReadFromFile_DifferentEntry() {
+  public void testSaveToFileAndReadFromFile_differentEntry() {
     AddressBook addressBook = new AddressBook();
     assertTrue(addressBook.addNewContact("Helen", "", "", null, null));
     AddressBook newBook = null;
@@ -390,16 +397,63 @@ public class AddressBookTest {
   }
   
   @Test
-  public void testSaveToFileAndReadFromFile_EntryWithNewLineCharacter() {
+  public void testSaveToFileAndReadFromFile_entryWithNewLineCharacter() {
     AddressBook addressBook = new AddressBook();
-    assertTrue(addressBook.addNewContact("Helen", "\n \n", "251,Mercer St", "example.edu", null));
+    assertTrue(addressBook.addNewContact("Helen", "Mouse\nCat\nLion", 
+        "251,Mercer St", "example.edu", null));
     AddressBook newBook = null;
     try {
       addressBook.saveToFile("/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
-      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
+      newBook = addressBook.readFromFile(""
+          + "/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
     } catch (IOException e) { }
     assertEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
         newBook.searchAddressBook("Helen").get(0).toString());
+  }
+  
+  /*
+   * Bug - When a pathToFile is not found, then readFromFile() should throw 
+   * FileNotFoundException
+   */
+  @Test (expected = FileNotFoundException.class)
+  public void testReadFromFile_fileNotFound() {
+    AddressBook addressBook = new AddressBook();
+    AddressBook newBook = null;
+    try {
+      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntry1.txt");
+    } catch (IOException e) { }
+  }
+  
+  /*
+   * Bug - When a pathToFile is null, then readFromFile() should throw 
+   * IllegalArgumentException but author throws IOException
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testReadFromFile_illegalArgument() {
+    AddressBook addressBook = new AddressBook();
+    AddressBook newBook = null;
+    try {
+      newBook = addressBook.readFromFile(null);
+    } catch (IOException e) { }
+  }
+  
+  /*
+   * Bug - readFromfile when called should add the read AddressBookEntries to 
+   * the existing addressBook object. Instead, author's code creates a new addressBook, 
+   * reads the AddressBookEntries, adds the entries to new AddressBook and 
+   * returns the newly created AddressBook.
+   * 
+   */
+  @Test
+  public void testReadFromFile_addAddressBookEntryToSameAddressBook() {
+    AddressBook addressBook = new AddressBook();
+    assertTrue(addressBook.addNewContact("Helen", "Mouse\nCat\nLion", "251,Mercer St", 
+        "example.edu", null));
+    try {
+      addressBook = addressBook.readFromFile(""
+          + "/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+    } catch (IOException e) { }
+    assertEquals(2, addressBook.searchAddressBook("Helen").size());
   }
 }
 
