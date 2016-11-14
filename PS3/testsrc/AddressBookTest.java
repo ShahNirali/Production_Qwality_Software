@@ -327,6 +327,24 @@ public class AddressBookTest {
     assertTrue(entries.isEmpty());
   }
   
+  /*
+   * Bug - serachAddressBook returns all entries that exist in 
+   * addressBook when searching for "" string. It should only return entries 
+   * with property that have empty string
+   */
+  @Test
+  public void testSearchAddressBook_emptyString() {
+    AddressBook addressbook = new AddressBook();
+    assertTrue(addressbook.addNewContact("Kehan", "+12345678", "W4th", 
+        "kehan@nyu.edu", "Schoolmate"));
+    assertTrue(addressbook.addNewContact("Jude", "+12345678", "", 
+        "nyu.edu", "Schoolmate"));
+    assertTrue(addressbook.addNewContact("Sam", "+12345678", null, 
+        null, "Schoolmate"));
+    List<AddressBookEntry> entries = addressbook.searchAddressBook("");
+    assertEquals(1, entries.size());
+  }
+  
   @Test
   public void testSaveToFile_simple() {
     AddressBook addressbook = new AddressBook();
