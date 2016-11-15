@@ -41,7 +41,7 @@ public class AddressBookTest {
   
   /* 
    * Bug - addNewContact doesnot replace spaces in name. Incorrect regex in replace()
-   * It inserts an entry to AddressBook with name = " " thus proving it wrong
+   * It inserts an entry to AddressBook with name = " ".
    */
   @Test
   public void testAddNewContact_nameWithSpcaesOnly() {
@@ -93,10 +93,10 @@ public class AddressBookTest {
   
   /*
    * Bug - author doesn't differentiate between null and empty string.
-   * null is considered as empty string 
+   * null is considered as empty string.
    */
   @Test
-  public void testAddAddressBookEntry_emptyString() {
+  public void testAddAddressBookEntry_proprtyAsEmptyString() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -122,14 +122,21 @@ public class AddressBookTest {
     assertEquals(0, addressbook.searchAddressBook("John").size());
   }
   
+  /*
+   * Bug - User won't know the entryID as entryID for each AddressBook doesn't 
+   * start from 0. This makes it difficult to remove entry.
+   */
   @Test
   public void testRemoveEntry_usingEntryId() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("John", null, null, null, null));
-    addressbook.removeEntry(addressbook.searchAddressBook("John").get(0).getEntryID());
-    assertEquals(0, addressbook.searchAddressBook("John").size());
+    assertTrue(addressbook.removeEntry(0));
   }
   
+  /*
+   * Instead of using Integer object, author could use primitive int. 
+   * Using primitive int would be faster operation.
+   */
   @Test
   public void testRemoveEntry_usingNullEntryId() {
     AddressBook addressbook = new AddressBook();
@@ -139,17 +146,25 @@ public class AddressBookTest {
   }
   
   @Test
+  public void testRemoveEntry_usingIntEntryId() {
+    AddressBook addressbook = new AddressBook();
+    assertTrue(addressbook.addNewContact("John", null, null, null, null));
+    int entryID = addressbook.searchAddressBook("John").get(0).getEntryID().intValue();
+    assertTrue(addressbook.removeEntry(entryID));
+  }
+  
+  @Test
   public void testRemoveEntry_usingEntryIdNotPresent() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Josh", null, null, null, null));
     assertTrue(addressbook.addNewContact("Ellen", "+123456789", null, null, null));
-    assertFalse(addressbook.removeEntry(10));
+    assertFalse(addressbook.removeEntry(100));
   }
   
   /*
    * Bug - searchAddressBook should throw exception when search string 
    * passed as parameter is null. If not then it should show the entries that
-   * have null values present.
+   * have null values present. Instead the user returns empty List.
    */
   @Test (expected = IllegalArgumentException.class)
   public void testSearchAddressBook_nullQuery() {
