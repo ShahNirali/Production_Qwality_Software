@@ -416,6 +416,9 @@ public class AddressBookTest {
    * Bug - Author assues null = "" which is wrong. Broken for fields with null and "".
    * AddressBookEntry ("Helen", null, null, null, null) != 
    * ("Helen", "", "", null, null)
+   * However, the authors code gives 
+   * AddressBookEntry ("Helen", null, null, null, null) = 
+   * ("Helen", "", "", null, null)
    */
   @Test
   public void testSaveToFileAndReadFromFile_differentEntry() {
@@ -451,9 +454,8 @@ public class AddressBookTest {
   @Test (expected = FileNotFoundException.class)
   public void testReadFromFile_fileNotFound() {
     AddressBook addressBook = new AddressBook();
-    AddressBook newBook = null;
     try {
-      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntry1.txt");
+      addressBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntry1.txt");
     } catch (IOException e) { }
   }
   
@@ -464,9 +466,8 @@ public class AddressBookTest {
   @Test (expected = IllegalArgumentException.class)
   public void testReadFromFile_illegalArgument() {
     AddressBook addressBook = new AddressBook();
-    AddressBook newBook = null;
     try {
-      newBook = addressBook.readFromFile(null);
+      addressBook = addressBook.readFromFile(null);
     } catch (IOException e) { }
   }
   
@@ -487,6 +488,20 @@ public class AddressBookTest {
           + "/Users/Nirali/Desktop/AddressBookWithNulls.txt");
     } catch (IOException e) { }
     assertEquals(2, addressBook.searchAddressBook("Helen").size());
+  }
+  
+  /*
+   * Bug - When a file contains null as properties, then readFromFile()
+   * throws NullPointerException while reading the file.
+   */
+  @Test
+  public void testReadFromFile_readNullFields() {
+    AddressBook addressBook = new AddressBook();
+    try {
+      addressBook = addressBook.readFromFile(""
+          + "AddressBookNullProperty.txt");
+    } catch (IOException e) { }
+    assertEquals("Aqua", addressBook.searchAddressBook("Aqua").get(0).getName());
   }
 }
 
