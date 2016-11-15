@@ -95,7 +95,7 @@ public class AddressBookTest {
    * null is considered as empty string.
    */
   @Test
-  public void testAddAddressBookEntry_proprtyAsEmptyString() {
+  public void testAddAddressBookEntry_propretyAsEmptyString() {
     AddressBook addressbook = new AddressBook();
     assertTrue(addressbook.addNewContact("Aqua", "+12345678", "", 
         "aqua@nyu.edu", "Schoolmate"));
@@ -106,9 +106,10 @@ public class AddressBookTest {
   }
   
   /* 
-   * Bug - Cannot remove entry which is present in the addressbook
-   * This is because of entryId (not in requirement specification but
-   * explicitly introduced by author) are different
+   * Bug - Cannot remove entry which is present in the addressbook.
+   * This is because author doesn't override equals() in AddressBookEntry
+   * class. An entry is said to be same when their references are same
+   * and also when their properties are same.
    */
   @Test
   public void testRemoveEntry_usingAddressBookEntry() {
