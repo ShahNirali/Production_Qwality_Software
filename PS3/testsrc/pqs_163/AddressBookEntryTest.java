@@ -9,7 +9,8 @@ import org.junit.Test;
 
 /* The declared package pqs_163 in AddressBook.java:#1 and 
  * AddressBookEntry.java#1 makes these classes non accessible.
- * In order to test, I commented the first line in both classes.
+ * In order to test, I created package pqs_163 and added the 
+ * both classes to that package.
  */
 
 public class AddressBookEntryTest {
