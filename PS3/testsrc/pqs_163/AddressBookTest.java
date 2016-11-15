@@ -375,7 +375,7 @@ public class AddressBookTest {
     assertTrue(addressbook.addNewContact("Jill", "+12345678", "W 4th St", 
         "jill@nyu.edu", "Collegemate"));
     try {
-      addressbook.saveToFile("/Users/Nirali/Desktop/AddressBook.txt");
+      addressbook.saveToFile("AddressBook.txt");
     } catch (IOException filewrite) { }
   }
   
@@ -396,7 +396,7 @@ public class AddressBookTest {
     AddressBook addressBook = new AddressBook();
     AddressBook newbook = null;
     try {
-      newbook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBook.txt");
+      newbook = addressBook.readFromFile("AddressBook.txt");
     } catch (StringIndexOutOfBoundsException | IOException fileread) { }
     List<AddressBookEntry> entries = newbook.searchAddressBook("Aqua");
     entries.addAll(newbook.searchAddressBook("Collegemate"));
@@ -410,8 +410,8 @@ public class AddressBookTest {
     assertTrue(addressBook.addNewContact("Helen", null, null, null, null));
     AddressBook newBook = null;
     try {
-      addressBook.saveToFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
-      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+      addressBook.saveToFile("AddressBookWithNulls.txt");
+      newBook = addressBook.readFromFile("AddressBookWithNulls.txt");
     } catch (IOException e) { }
     assertEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
         newBook.searchAddressBook("Helen").get(0).toString());
@@ -431,7 +431,7 @@ public class AddressBookTest {
     assertTrue(addressBook.addNewContact("Helen", "", "", null, null));
     AddressBook newBook = null;
     try {
-      newBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+      newBook = addressBook.readFromFile("AddressBookWithNulls.txt");
     } catch (IOException e) { }
     assertNotEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
         newBook.searchAddressBook("Helen").get(0).toString());
@@ -444,9 +444,8 @@ public class AddressBookTest {
         "251,Mercer St", "example.edu", null));
     AddressBook newBook = null;
     try {
-      addressBook.saveToFile("/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
-      newBook = addressBook.readFromFile(""
-          + "/Users/Nirali/Desktop/AddressBookEntryWithNewLineCharacter.txt");
+      addressBook.saveToFile("AddressBookEntryWithNewLineCharacter.txt");
+      newBook = addressBook.readFromFile("AddressBookEntryWithNewLineCharacter.txt");
     } catch (IOException e) { }
     assertEquals(addressBook.searchAddressBook("Helen").get(0).toString(), 
         newBook.searchAddressBook("Helen").get(0).toString());
@@ -460,7 +459,7 @@ public class AddressBookTest {
   public void testReadFromFile_fileNotFound() {
     AddressBook addressBook = new AddressBook();
     try {
-      addressBook = addressBook.readFromFile("/Users/Nirali/Desktop/AddressBookEntry1.txt");
+      addressBook = addressBook.readFromFile("AddressBookEntry1.txt");
     } catch (IOException e) { }
   }
   
@@ -489,8 +488,7 @@ public class AddressBookTest {
     assertTrue(addressBook.addNewContact("Helen", "Mouse\nCat\nLion", "251,Mercer St", 
         "example.edu", null));
     try {
-      addressBook = addressBook.readFromFile(""
-          + "/Users/Nirali/Desktop/AddressBookWithNulls.txt");
+      addressBook = addressBook.readFromFile("AddressBookWithNulls.txt");
     } catch (IOException e) { }
     assertEquals(2, addressBook.searchAddressBook("Helen").size());
   }
