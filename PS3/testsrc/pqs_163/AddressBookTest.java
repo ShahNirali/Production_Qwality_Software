@@ -127,6 +127,15 @@ public class AddressBookTest {
     assertEquals(0, addressbook.searchAddressBook("John").size());
   }
   
+  @Test
+  public void testRemoveEntry_usingAddressBookEntryReference() {
+    AddressBook addressbook = new AddressBook();
+    assertTrue(addressbook.addNewContact("John", "+123456789", "JFK blvd", 
+        "john@nyu.edu", "Permanent Address"));
+    addressbook.removeEntry(addressbook.searchAddressBook("John").get(0));
+    assertTrue(addressbook.searchAddressBook("John").isEmpty());
+  }
+  
   /*
    * Bug - User won't know the entryID as entryID for each AddressBook doesn't 
    * start from 0. This makes it difficult to remove entry.
@@ -494,8 +503,10 @@ public class AddressBookTest {
   }
   
   /*
-   * Bug - When a file contains null as properties, then readFromFile()
-   * throws NullPointerException while reading the file.
+   * Bug - readFromFile() reads null values and creates them to "null".
+   * AddressBookEntry ("Aqua",null,null,null,null) becomes 
+   * AddressBookEntry ("Aqua", "null", "null", "null", "null").
+   * This is incorrect behaviour.
    */
   @Test
   public void testReadFromFile_readNullFields() {
@@ -504,7 +515,9 @@ public class AddressBookTest {
       addressBook = addressBook.readFromFile(""
           + "AddressBookNullProperty.txt");
     } catch (IOException e) { }
-    assertEquals("Aqua", addressBook.searchAddressBook("Aqua").get(0).getName());
+    List<AddressBookEntry> entries = addressBook.searchAddressBook("Aqua");
+    assertEquals("Aqua", entries.get(0).getName());
+    assertEquals(null, entries.get(0).getPhoneNumber());
   }
 }
 
