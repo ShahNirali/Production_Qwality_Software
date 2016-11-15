@@ -108,6 +108,41 @@ public class AddressBookEntryTest {
   }
   
   @Test
+  public void testContainsString_name() {
+    AddressBookEntry entry = new AddressBookEntry("Kenith", null,null,
+        null,null);
+    assertTrue(entry.containsString("Kenith"));
+  }
+  
+  @Test
+  public void testContainsString_phone() {
+    AddressBookEntry entry = new AddressBookEntry("Kenith", "+12345",null,
+        null,null);
+    assertTrue(entry.containsString("+12345"));
+  }
+  
+  @Test
+  public void testContainsString_postalAddress() {
+    AddressBookEntry entry = new AddressBookEntry("Kenith", null, "251",
+        null,null);
+    assertTrue(entry.containsString("251"));
+  }
+  
+  @Test
+  public void testContainsString_emailAddress() {
+    AddressBookEntry entry = new AddressBookEntry("Kenith", null, null,
+        "@nyu.edu",null);
+    assertTrue(entry.containsString("@nyu.edu"));
+  }
+  
+  @Test
+  public void testContainsString_note() {
+    AddressBookEntry entry = new AddressBookEntry("Kenith", null, null,
+        "@nyu.edu","Collegemate");
+    assertTrue(entry.containsString("CollegeMate"));
+  }
+  
+  @Test
   public void testToString_simple() {
     AddressBookEntry entry = new AddressBookEntry("Kenith", "+987654",
         "251,Mercer", "nyu.edu", "Schoolmate");
@@ -115,8 +150,8 @@ public class AddressBookEntryTest {
   }
   
   /*
-   * Ambiguity - toString() uses " " as delimeter. When entry has " ", it becomes 
-   * to interpret results.
+   * Ambiguity - toString() uses " " as delimeter. When entry has " ", it becomes  
+   * difficult to interpret results.
    */
   @Test
   public void testToString_entryWithSpaces() {
