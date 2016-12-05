@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class ConnectFourView {
   private JFrame frame = new JFrame("Connect 4");
@@ -106,6 +107,7 @@ public class ConnectFourView {
         JButton button = createButton(col);
         button.setBackground(Color.GRAY);
         button.setOpaque(true);
+        button.setBorder(new LineBorder(Color.WHITE));
         boardPanel.add(button);
         discButton[row][col] = button;
       }
