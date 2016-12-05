@@ -8,11 +8,6 @@ import java.util.List;
  * Reference: https://github.com/hanshenrik/connect4/blob/master/src/main/java/FPModel.java
  */
 public class ConnectFour {
-  private enum Direction {
-    LEFT,
-    RIGHT,
-  }
-  
   private Player currentPlayer;
   private Player player1;
   private Player player2;
@@ -55,7 +50,7 @@ public class ConnectFour {
     fireGameStartedEvent();
   }
   
-  public void playDisc(int column) {
+  public void playDisc(int column) throws IllegalMoveException {
     int row = getLowestRow(column);
     if (row != -1 && !isGameFinish()) {
       Disc disc = new Disc(currentPlayer, row, column);
@@ -68,6 +63,9 @@ public class ConnectFour {
       }
       switchPlayer();
       firePlayedDiscEvent(disc);
+    }
+    if (row == -1) {
+      throw new IllegalMoveException("Player's illegal move");
     }
   }
   

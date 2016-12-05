@@ -48,7 +48,10 @@ public class ConnectFourView {
       public void playedDisc(Disc disc) {
         displayDisc(disc);
         if(computerPlayer != null && !disc.getPlayer().equals(computerPlayer)) {
-          connectFour.playDisc(computerPlayer.getMove());
+          try {
+            connectFour.playDisc(computerPlayer.getMove(disc.getColumnPlayed()));
+          } catch (IllegalMoveException e) {
+          }
         }
       }
       
@@ -115,7 +118,11 @@ public class ConnectFourView {
       
       @Override
       public void actionPerformed(ActionEvent e) {
-        connectFour.playDisc(column);
+        try {
+          connectFour.playDisc(column);
+        } catch (IllegalMoveException moveInvalid) {
+          JOptionPane.showMessageDialog(frame, moveInvalid.getMessage());
+        }
       }
     });
     return button;
