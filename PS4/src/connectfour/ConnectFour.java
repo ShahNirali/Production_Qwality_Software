@@ -19,7 +19,6 @@ public class ConnectFour {
   private final int COLUMNS = 7;
   private Disc[][] board;
   private List<ConnectFourListner> listners = new ArrayList<ConnectFourListner>();
-  private boolean isGameOver;
   private int freeDiscs;
   private boolean winningSequence;
   
@@ -27,7 +26,6 @@ public class ConnectFour {
    * ConnectFour constructor to form object an initialse data memebers
    */
   public ConnectFour() {
-    isGameOver = false;
     winningSequence = false;
     freeDiscs = ROWS*COLUMNS;
     initializeBoard();
@@ -37,8 +35,12 @@ public class ConnectFour {
    * Add connect four listners to the list who will be notified 
    * of any even occuring in the game.
    * @param listner A refernce of ConnectFourListner object
+   * @throws IllegalArgumentException when listner passed is null
    */
   public void addConnectFourListener(ConnectFourListner listner) {
+    if (listner == null) {
+      throw new IllegalArgumentException("Listner can't be empty");
+    }
     this.listners.add(listner);
   }
 
@@ -46,9 +48,14 @@ public class ConnectFour {
    * Remove connect four listners from the list who no longer wish to 
    * get notified. 
    * @param listner A refernce of ConnectFourListner object
+   * @return boolean indicating the listner was removed
+   * @throws IllegalArgumentException when listner passed is null
    */
-  public void removeConnectFourListener(ConnectFourListner listner) {
-    this.listners.remove(listner);
+  public boolean removeConnectFourListener(ConnectFourListner listner) {
+    if (listner == null) {
+      throw new IllegalArgumentException("Listner can't be empty");
+    }
+    return this.listners.remove(listner);
   }
   
   /**
@@ -56,8 +63,16 @@ public class ConnectFour {
    * get notified. 
    * @param player1 a player object who is the first player
    * @param player2 a player object that is second player
+   * @throws IllegalArgumentException when player passed is null
+   *        or when both players are same
    */
   public void startGame(Player player1, Player player2) {
+    if (player1 == null || player2 == null) {
+      throw new IllegalArgumentException("Player can't be empty"); 
+    }
+    if (player1 == player2) {
+      throw new IllegalArgumentException("Players can't be same"); 
+    }
     this.player1 = player1;
     this.player2 = player2;
     currentPlayer = player1;
@@ -73,8 +88,11 @@ public class ConnectFour {
    *        Discs
    */
   public void playDisc(int column) throws IllegalMoveException {
+    if (column < -1 || column >= COLUMNS) {
+      throw new IllegalMoveException("Player's illegal move");
+    }
     int row = getLowestRow(column);
-    if (row != -1 && !isGameFinish()) {
+    if (row != -1 && !isFullBoard()) {
       Disc disc = new Disc(currentPlayer, row, column);
       board[row][column] = disc;
       freeDiscs--;
@@ -87,7 +105,11 @@ public class ConnectFour {
       firePlayedDiscEvent(disc);
     }
     if (row == -1) {
-      throw new IllegalMoveException("Player's illegal move");
+      if (isFullBoard()) {
+        throw new IllegalMoveException("Board is full. Start a new Game");
+      } else {
+        throw new IllegalMoveException("Player's illegal move");
+      }
     }
   }
   
@@ -174,16 +196,9 @@ public class ConnectFour {
     currentPlayer = (currentPlayer.equals(player1)) ? player2 : player1;
   }
 
-  private boolean isGameFinish() {
-    if (isGameOver || isFullBoard()) {
-      fireGameFinishEvent();
-      return true;
-    }
-    return false;
-  }
-
   private boolean isFullBoard() {
     if (freeDiscs == 0) {
+      fireGameFinishEvent();
       return true;
     }
     return false;
