@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Computer player is subset of Player. It has the functionality
+ * of playing random moves and taking a move when he thinks
+ * he can win.
+ * 
+ * @author nns271
+ */
 public class ComputerPlayer extends Player {
   private ConnectFour game;
   private int ROWS;
@@ -13,6 +20,13 @@ public class ComputerPlayer extends Player {
   private Disc[][] board;
   private List<Point> moveHistory;
   
+  /**
+   * Contructor of ComputerPlayer that calls constructor of superclass 
+   * Player and initializes its data members
+   * @param name conataing name of the player
+   * @param color Color of Disc when player plays his turn
+   * @param game An object of ConnectFour
+   */
   public ComputerPlayer(String name, Color color, ConnectFour game) {
     super(name, color);
     this.game = game;
@@ -20,11 +34,14 @@ public class ComputerPlayer extends Player {
     this.COLUMNS = game.getColumns();
     moveHistory = new ArrayList<Point>();
   }
-
-  private int random() {
-    return new Random().nextInt(COLUMNS - 1);
-  }
   
+  /**
+   * Get next column to play. 
+   * Moves are random but takes correct move when it thinks
+   * it can win. This is done by checking horizontal and vertical
+   * lines that help take one step closer to victory.
+   * @param prevColumnPlayed column played by his opponent
+   */
   public int getMove(int prevColumnPlayed) {
     int column;
     boolean isValidRow = false;
@@ -51,8 +68,11 @@ public class ComputerPlayer extends Player {
     moveHistory.add(new Point(game.getLowestRow(column), column));
     return column;
   }
+  
+  private int random() {
+    return new Random().nextInt(COLUMNS - 1);
+  }
 
-  /* Checking for horizontal and vertical line with one Disc */
   private int getNextRow(int row, int column) {
     int horizontalLine = checkLine(new Point(row, 0), 
                                    new Point(row, COLUMNS - 1));

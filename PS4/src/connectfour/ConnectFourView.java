@@ -10,6 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+/**
+ * SwingGUI used to initialse the players, board and game object.
+ * 
+ * @author nns271
+ */
 public class ConnectFourView {
   private JFrame frame = new JFrame("Connect 4");
   private JButton[][] discButton;
@@ -19,8 +24,9 @@ public class ConnectFourView {
   private int numberOfColumns;
   private ComputerPlayer computerPlayer;
   
-  /*
-   * Form the GUI which will display board
+  /**
+   * Used to form the initial outline of game.
+   * @param model an object of ConnectFour
    */
   public ConnectFourView(ConnectFour model) {
     this.connectFour = model;
@@ -30,7 +36,6 @@ public class ConnectFourView {
     boardPanel = new JPanel(new GridLayout(numberOfRows, numberOfColumns));
     formBoard();
     
-    //frame.getContentPane().setLayout(new GridLayout(numberOfRows, numberOfColumns));
     frame.getContentPane().add(boardPanel);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(600, 800);
@@ -68,7 +73,8 @@ public class ConnectFourView {
     });
     startNewGame("Let's play Connect4!");
   }
-
+  
+  //Helper method ConnectFourListner actions
   protected void showMessage(String message) {
     JOptionPane.showMessageDialog(frame, message);
   }

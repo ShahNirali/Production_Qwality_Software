@@ -4,8 +4,12 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
+ * ConnectFour class is responible for initializing game. This class also takes care of 
+ * forming the (row,colum) pair of players move. It checks for winning sequence.
  * Reference: https://github.com/hanshenrik/connect4/blob/master/src/main/java/FPModel.java
+ * 
+ * @author nns271
  */
 public class ConnectFour {
   private Player currentPlayer;
@@ -19,6 +23,9 @@ public class ConnectFour {
   private int freeDiscs;
   private boolean winningSequence;
   
+  /**
+   * ConnectFour constructor to form object an initialse data memebers
+   */
   public ConnectFour() {
     isGameOver = false;
     winningSequence = false;
@@ -26,23 +33,30 @@ public class ConnectFour {
     initializeBoard();
   }
   
-  private void initializeBoard() {
-    board = new Disc[ROWS][COLUMNS];
-    for (int row = 0; row < ROWS; row++) {
-      for (int column = 0; column < COLUMNS; column++) {
-        board[row][column] = null;
-      }
-    }
-  }
-  
+  /**
+   * Add connect four listners to the list who will be notified 
+   * of any even occuring in the game.
+   * @param listner A refernce of ConnectFourListner object
+   */
   public void addConnectFourListener(ConnectFourListner listner) {
     this.listners.add(listner);
   }
 
+  /**
+   * Remove connect four listners from the list who no longer wish to 
+   * get notified. 
+   * @param listner A refernce of ConnectFourListner object
+   */
   public void removeConnectFourListener(ConnectFourListner listner) {
     this.listners.remove(listner);
   }
   
+  /**
+   * Remove connect four listners from the list who no longer wish to 
+   * get notified. 
+   * @param player1 a player object who is the first player
+   * @param player2 a player object that is second player
+   */
   public void startGame(Player player1, Player player2) {
     this.player1 = player1;
     this.player2 = player2;
@@ -50,6 +64,14 @@ public class ConnectFour {
     fireGameStartedEvent();
   }
   
+  /**
+   * Play disc when the column is known. Perform operations like 
+   * assigning disc to board, decrement moves pointer freeDiscs and it also 
+   * checks for winning sequences.
+   * @param player1 a player object who is the first player
+   * @throws IllegalMoveException when player's move results in OutOfBoundary
+   *        Discs
+   */
   public void playDisc(int column) throws IllegalMoveException {
     int row = getLowestRow(column);
     if (row != -1 && !isGameFinish()) {
@@ -66,6 +88,29 @@ public class ConnectFour {
     }
     if (row == -1) {
       throw new IllegalMoveException("Player's illegal move");
+    }
+  }
+  
+  /**
+   * Get the correct row given a column
+   * @param column column in which row is needed
+   * @return the index of row or return -1
+   */
+  public int getLowestRow(int column) {
+    for (int i = 0; i < ROWS; i++) {
+      if (board[i][column] == null) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  
+  private void initializeBoard() {
+    board = new Disc[ROWS][COLUMNS];
+    for (int row = 0; row < ROWS; row++) {
+      for (int column = 0; column < COLUMNS; column++) {
+        board[row][column] = null;
+      }
     }
   }
   
@@ -124,15 +169,6 @@ public class ConnectFour {
       previous = current;
     }
   }
-
-  public int getLowestRow(int column) {
-    for (int i = 0; i < ROWS; i++) {
-      if (board[i][column] == null) {
-        return i;
-      }
-    }
-    return -1;
-  }
   
   private void switchPlayer() {
     currentPlayer = (currentPlayer.equals(player1)) ? player2 : player1;
@@ -177,14 +213,26 @@ public class ConnectFour {
     }
   }
   
+  /**
+   * Get board detailes
+   * @return a new clone of board
+   */
   public Disc[][] getBoard() {
     return board.clone();
   }
   
+  /**
+   * Get numberOfRows on the board to check boundry conditions
+   * @return totalNumber of rows on the board
+   */
   public int getRows() {
     return ROWS;
   }
   
+  /**
+   * Get column count
+   * @return totalNumber of cols on the board
+   */
   public int getColumns() {
     return COLUMNS;
   }
