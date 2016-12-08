@@ -127,6 +127,25 @@ public class ConnectFour {
     return -1;
   }
   
+  /**
+   * Get the startPoint inorder to check the diagonal.
+   * @param row row for which start point is needed
+   * @param column column for which start point is needed
+   * @param direction the direction of diagonal
+   * @return new Point object 
+   */
+  public Point getStartPoint(int row, int column, Direction direction) {
+    while (row != 0 && row != (ROWS - 1) && column != 0 && column != (COLUMNS-1)) {
+      row--;
+      if (direction == Direction.RIGHT) {
+        column--;
+      } else {
+        column++;
+      }
+    }
+    return new Point(row, column);
+  }
+  
   private void initializeBoard() {
     board = new Disc[ROWS][COLUMNS];
     for (int row = 0; row < ROWS; row++) {
@@ -141,18 +160,6 @@ public class ConnectFour {
     checkLine(new Point(0, column), new Point(ROWS - 1, column));
     checkLine(getStartPoint(row, column, Direction.RIGHT), new Point(ROWS - 1, COLUMNS - 1));
     checkLine(getStartPoint(row, column, Direction.LEFT), new Point(ROWS - 1, 0));
-  }
-
-  private Point getStartPoint(int row, int column, Direction direction) {
-    while (row != 0 && row != (ROWS - 1) && column != 0 && column != (COLUMNS-1)) {
-      row--;
-      if (direction == Direction.RIGHT) {
-        column--;
-      } else {
-        column++;
-      }
-    }
-    return new Point(row, column);
   }
 
   private void checkLine(Point start, Point end) {
