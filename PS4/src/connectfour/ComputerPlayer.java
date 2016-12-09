@@ -48,9 +48,6 @@ public class ComputerPlayer extends Player {
     column = (column == -1) ? random() : column;
     while (game.getLowestRow(column) < 0) {
       column = random();
-      if (game.isFullBoard()) {
-        return -1;
-      }
     }
     return column;
   }
