@@ -146,6 +146,8 @@ public class ConnectFour {
     return new Point(row, column);
   }
   
+  public List<Point> getPlayerMoveHistory
+  
   private void initializeBoard() {
     board = new Disc[ROWS][COLUMNS];
     for (int row = 0; row < ROWS; row++) {
