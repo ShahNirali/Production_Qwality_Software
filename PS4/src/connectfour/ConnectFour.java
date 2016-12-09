@@ -192,6 +192,9 @@ public class ConnectFour {
     Disc current = null;
     int directionOfX = 0;
     int directionOfY = 0;
+    if (start.x == end.x && start.y == end.y) {
+      return;
+    }
     if (start.x < end.x) {
       directionOfX = 1;
     }
