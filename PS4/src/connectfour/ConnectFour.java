@@ -21,8 +21,6 @@ public class ConnectFour {
   private List<ConnectFourListner> listners = new ArrayList<ConnectFourListner>();
   private int freeDiscs;
   private boolean winningSequence;
-  private List<Point> player1History = new ArrayList<Point>();
-  private List<Point> player2History = new ArrayList<Point>();
   
   /**
    * ConnectFour constructor to form object an initialse data memebers
@@ -97,7 +95,6 @@ public class ConnectFour {
     if (row != -1 && !isFullBoard()) {
       Disc disc = new Disc(currentPlayer, row, column);
       board[row][column] = disc;
-      formPlayerHistoryMoves(row, column);
       freeDiscs--;
       checkWinningSequence(row, column);
       if (winningSequence) {
@@ -115,7 +112,7 @@ public class ConnectFour {
       }
     }
   }
-
+  
   /**
    * Get the correct row given a column
    * @param column column in which row is needed
@@ -149,34 +146,6 @@ public class ConnectFour {
     return new Point(row, column);
   }
   
-  /**
-   * Check if board is full
-   * @return true if board is full else false
-   */
-  public boolean isFullBoard() {
-    if (freeDiscs == 0) {
-      fireGameFinishEvent();
-      return true;
-    }
-    return false;
-  }
-  
-  /**
-   * Get all moves of player played so far. 
-   * @param player Player whos history is needed
-   * @return list of move player by the player so far
-   */
-  public List<Point> getPlayerMoveHistory(Player player) {
-    if (player == null) {
-      throw new IllegalArgumentException("Player can't be empty");
-    }
-    if (player.equals(player1)) {
-      return new ArrayList<Point>(player1History);
-    } else {
-      return new ArrayList<Point>(player2History);
-    }
-  }
-  
   private void initializeBoard() {
     board = new Disc[ROWS][COLUMNS];
     for (int row = 0; row < ROWS; row++) {
@@ -186,15 +155,6 @@ public class ConnectFour {
     }
   }
   
-  private void formPlayerHistoryMoves(int row, int column) {
-    if (currentPlayer.equals(player1)) {
-      player1History.add(new Point(row,column));
-    } else {
-      player2History.add(new Point(row, column));
-    }
-    
-  }
-
   private void checkWinningSequence(int row, int column) {
     checkLine(new Point(row, 0), new Point(row, COLUMNS - 1));
     checkLine(new Point(0, column), new Point(ROWS - 1, column));
@@ -241,6 +201,14 @@ public class ConnectFour {
   
   private void switchPlayer() {
     currentPlayer = (currentPlayer.equals(player1)) ? player2 : player1;
+  }
+
+  private boolean isFullBoard() {
+    if (freeDiscs == 0) {
+      fireGameFinishEvent();
+      return true;
+    }
+    return false;
   }
   
   private void fireGameStartedEvent() {

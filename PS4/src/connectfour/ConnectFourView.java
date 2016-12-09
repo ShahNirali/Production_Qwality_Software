@@ -55,7 +55,7 @@ public class ConnectFourView {
         displayDisc(disc);
         if(computerPlayer != null && !disc.getPlayer().equals(computerPlayer)) {
           try {
-            connectFour.playDisc(computerPlayer.getMove());
+            connectFour.playDisc(computerPlayer.getMove(disc.getColumnPlayed()));
           } catch (IllegalMoveException e) {
           }
         }
