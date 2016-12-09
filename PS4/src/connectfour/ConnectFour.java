@@ -21,6 +21,8 @@ public class ConnectFour {
   private List<ConnectFourListner> listners = new ArrayList<ConnectFourListner>();
   private int freeDiscs;
   private boolean winningSequence;
+  private List<Point> player1Moves = new ArrayList<Point>();
+  private List<Point> player2Moves = new ArrayList<Point>();
   
   /**
    * ConnectFour constructor to form object an initialse data memebers
@@ -96,6 +98,7 @@ public class ConnectFour {
       Disc disc = new Disc(currentPlayer, row, column);
       board[row][column] = disc;
       freeDiscs--;
+      formPlayerMoveHistory(row, column);
       checkWinningSequence(row, column);
       if (winningSequence) {
         firePlayerWonEvent(disc);
@@ -112,7 +115,7 @@ public class ConnectFour {
       }
     }
   }
-  
+
   /**
    * Get the correct row given a column
    * @param column column in which row is needed
@@ -146,7 +149,18 @@ public class ConnectFour {
     return new Point(row, column);
   }
   
-  public List<Point> getPlayerMoveHistory
+  /**
+   * Get player moves for checking winning move
+   * @param player Player whose move are needed
+   * @return a List of moves
+   */
+  public List<Point> getPlayerMoveHistory(Player player) {
+    if (player.equals(player1)) {
+      return new ArrayList<>(player1Moves);
+    } else {
+      return new ArrayList<>(player2Moves);
+    }
+  }
   
   private void initializeBoard() {
     board = new Disc[ROWS][COLUMNS];
@@ -154,6 +168,14 @@ public class ConnectFour {
       for (int column = 0; column < COLUMNS; column++) {
         board[row][column] = null;
       }
+    }
+  }
+  
+  private void formPlayerMoveHistory(int row, int column) {
+    if (currentPlayer.equals(player1)) {
+      player1Moves.add(new Point(row, column));
+    } else {
+      player2Moves.add(new Point(row, column));
     }
   }
   

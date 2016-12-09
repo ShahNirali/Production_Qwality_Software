@@ -46,6 +46,7 @@ public class ComputerPlayer extends Player {
     int column;
     boolean isValidRow = false;
     board = game.getBoard();
+    moveHistory = game.getPlayerMoveHistory(this);
     if (moveHistory.isEmpty()) {
       column = random();
       moveHistory.add(new Point(game.getLowestRow(column), column));
