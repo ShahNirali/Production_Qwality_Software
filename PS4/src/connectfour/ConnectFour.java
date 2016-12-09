@@ -162,6 +162,17 @@ public class ConnectFour {
     }
   }
   
+  /**
+   * Check if board is full
+   * @return true is board is filled
+   */
+  public boolean isFullBoard() {
+    if (freeDiscs == 0) {
+      fireGameFinishEvent();
+      return true;
+    }
+    return false;
+  }
   private void initializeBoard() {
     board = new Disc[ROWS][COLUMNS];
     for (int row = 0; row < ROWS; row++) {
@@ -192,9 +203,6 @@ public class ConnectFour {
     Disc current = null;
     int directionOfX = 0;
     int directionOfY = 0;
-    if (start.x == end.x && start.y == end.y) {
-      return;
-    }
     if (start.x < end.x) {
       directionOfX = 1;
     }
@@ -228,14 +236,6 @@ public class ConnectFour {
   
   private void switchPlayer() {
     currentPlayer = (currentPlayer.equals(player1)) ? player2 : player1;
-  }
-
-  private boolean isFullBoard() {
-    if (freeDiscs == 0) {
-      fireGameFinishEvent();
-      return true;
-    }
-    return false;
   }
   
   private void fireGameStartedEvent() {
