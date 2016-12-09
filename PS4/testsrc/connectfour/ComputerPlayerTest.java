@@ -1,5 +1,6 @@
 package connectfour;
 
+import static org.junit.Assert.assertEquals;
 import java.awt.Color;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class ComputerPlayerTest {
     Player player = new Player("Player", Color.BLACK);
     ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
-    computerPlayer.getMove(0);
+    computerPlayer.getMove();
   }
   
   @Test
@@ -23,34 +24,96 @@ public class ComputerPlayerTest {
     for (int row = 0; row < connectFour.getRows(); row++) {
       connectFour.playDisc(5);
     }
-    computerPlayer.getMove(5);
+    connectFour.playDisc(computerPlayer.getMove());
   }
   
   @Test
-  public void testGetMove_twoColumnsAreFull() throws IllegalMoveException {
+  public void testGetMove_withTwoComputerPlayer() throws IllegalMoveException {
     ConnectFour connectFour= new ConnectFour();
+    ComputerPlayer computerPlayer1 = new ComputerPlayer("Computer1", Color.BLUE, connectFour);
+    ComputerPlayer computerPlayer2 = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
+    connectFour.startGame(computerPlayer1, computerPlayer2);
+    for (int row = 0; row < connectFour.getRows(); row++) {
+      connectFour.playDisc(computerPlayer1.getMove());
+      connectFour.playDisc(computerPlayer2.getMove());
+    }
+  }
+  
+  @Test
+  public void testGetMove_withWinningMoveByComputer() throws IllegalMoveException {
+    ConnectFour connectFour= new ConnectFour();
+    ConnectFourListner listner = new ConnectFourListner() {
+
+      @Override
+      public void playerWon(Disc disc) {
+        showMessage(disc.getPlayer() + " won");
+      }
+      
+      private void showMessage(String string) {
+        assertEquals("Computer won", string);
+      }
+      
+      @Override
+      public void playedDisc(Disc disc) {
+      }
+      
+      @Override
+      public void gameStarted() {
+      }
+      
+      @Override
+      public void gameEnded() {
+      }
+    };
+    connectFour.addConnectFourListener(listner);
     Player player = new Player("Player", Color.BLACK);
     ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
     int col;
-    for (col = 0; col < 2; col++) {
+    for (col = 0; col < 3; col++) {
       for (int row = 0; row < connectFour.getRows(); row++) {
         connectFour.playDisc(col);
       }
     }
-    computerPlayer.getMove(col);
+    connectFour.playDisc(3);
+    connectFour.playDisc(3);
+    connectFour.playDisc(3);
+    connectFour.playDisc(computerPlayer.getMove());
   }
   
   @Test
-  public void testGetMove_withRandomMove() throws IllegalMoveException {
+  public void testGetMove_withFullBoard() throws IllegalMoveException {
     ConnectFour connectFour= new ConnectFour();
+    ConnectFourListner listner = new ConnectFourListner() {
+      @Override
+      public void playerWon(Disc disc) {
+      }
+      
+      @Override
+      public void playedDisc(Disc disc) {
+      }
+      
+      @Override
+      public void gameStarted() {
+      }
+      
+      @Override
+      public void gameEnded() {
+        showMessage("Game Over");
+      }
+      
+      private void showMessage(String string) {
+        assertEquals("Game Over", string);
+      }
+    };
+    connectFour.addConnectFourListener(listner);
     Player player = new Player("Player", Color.BLACK);
-    ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
+    ComputerPlayer computerPlayer = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
-    connectFour.playDisc(1);
-    connectFour.playDisc(computerPlayer.getMove(1));
-    connectFour.playDisc(0);
-    connectFour.playDisc(computerPlayer.getMove(0));
+    for (int col = 0; col < connectFour.getColumns(); col++) {
+      for (int row = 0; row < connectFour.getRows(); row++) {
+        connectFour.playDisc(col);
+      }
+    }
   }
-  
 }
