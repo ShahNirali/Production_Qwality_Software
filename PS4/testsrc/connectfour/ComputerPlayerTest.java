@@ -41,4 +41,16 @@ public class ComputerPlayerTest {
     computerPlayer.getMove(col);
   }
   
+  @Test
+  public void testGetMove_withRandomMove() throws IllegalMoveException {
+    ConnectFour connectFour= new ConnectFour();
+    Player player = new Player("Player", Color.BLACK);
+    ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
+    connectFour.startGame(player, computerPlayer);
+    connectFour.playDisc(1);
+    connectFour.playDisc(computerPlayer.getMove(1));
+    connectFour.playDisc(0);
+    connectFour.playDisc(computerPlayer.getMove(0));
+  }
+  
 }
