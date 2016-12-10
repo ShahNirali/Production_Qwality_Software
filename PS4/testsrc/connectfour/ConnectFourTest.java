@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.util.List;
+
 import org.junit.Test;
 
 public class ConnectFourTest {
@@ -183,5 +186,18 @@ public class ConnectFourTest {
         connectfour.playDisc(0);
         connectfour.playDisc(1);
     }
+  }
+  
+  @Test
+  public void testGetPlayerMoveHistory_forPlayer() throws IllegalMoveException {
+    ConnectFour connectfour = new ConnectFour();
+    Player player1 = new Player("Player1", Color.BLACK);
+    Player player2 = new Player("Player2", Color.GRAY);
+    connectfour.startGame(player1, player2);
+    connectfour.playDisc(0);
+    List<Point> player1History = connectfour.getPlayerMoveHistory(player1);
+    List<Point> player2History = connectfour.getPlayerMoveHistory(player2);
+    assertEquals(new Point(0,0), player1History.get(0));
+    assertTrue(player2History.isEmpty());
   }
 }
