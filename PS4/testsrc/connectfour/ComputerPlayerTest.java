@@ -116,4 +116,54 @@ public class ComputerPlayerTest {
       }
     }
   }
+  
+  @Test
+  public void testGetMove_withLastColumnFull() throws IllegalMoveException {
+    ConnectFour connectFour= new ConnectFour();
+    Player player = new Player("Player", Color.BLACK);
+    ComputerPlayer computerPlayer = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
+    connectFour.startGame(player, computerPlayer);
+    for (int col = 0; col < 1; col++) {
+      for (int row = 0; row < connectFour.getRows(); row++) {
+        connectFour.playDisc(5);
+      }
+    }
+    connectFour.playDisc(computerPlayer.getMove());
+  }
+  
+  @Test
+  public void testGetMove_withOneColumnEmpty() throws IllegalMoveException {
+    ConnectFour connectFour= new ConnectFour();
+    ConnectFourListner listner = new ConnectFourListner() {
+      @Override
+      public void playerWon(Disc disc) {
+      }
+      
+      @Override
+      public void playedDisc(Disc disc) {
+      }
+      
+      @Override
+      public void gameStarted() {
+      }
+      
+      @Override
+      public void gameEnded() {
+        showMessage("Game Over");
+      }
+      
+      private void showMessage(String string) {
+      }
+    };
+    connectFour.addConnectFourListener(listner);
+    Player player = new Player("Player", Color.BLACK);
+    ComputerPlayer computerPlayer = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
+    connectFour.startGame(player, computerPlayer);
+    for (int col = 0; col < 6; col++) {
+      for (int row = 0; row < connectFour.getRows(); row++) {
+        connectFour.playDisc(col);
+      }
+    }
+    connectFour.playDisc(computerPlayer.getMove());
+  }
 }
