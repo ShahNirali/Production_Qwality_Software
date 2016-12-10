@@ -19,6 +19,7 @@ public class ComputerPlayer extends Player {
   private int COLUMNS;
   private Disc[][] board;
   private List<Point> moveHistory;
+  private boolean[] filledColumn;
   
   /**
    * Contructor of ComputerPlayer that calls constructor of superclass 
@@ -32,6 +33,7 @@ public class ComputerPlayer extends Player {
     this.game = game;
     this.ROWS = game.getRows();
     this.COLUMNS = game.getColumns();
+    filledColumn = new boolean[COLUMNS];
   }
   
   /**
@@ -47,11 +49,32 @@ public class ComputerPlayer extends Player {
     int column = checkWinningMove();
     column = (column == -1) ? random() : column;
     while (game.getLowestRow(column) < 0) {
-      column = random();
+      filledColumn[column] = true;
+      int emptyColums = checkEmptyColumns();
+      column = emptyColums > 1 ? random() : getEmptyColumn();
     }
     return column;
   }
-  
+
+  private int getEmptyColumn() {
+    for (int i = 0; i < COLUMNS; i++) {
+      if (filledColumn[i] == Boolean.FALSE) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  private int checkEmptyColumns() {
+    int emptyColumns = COLUMNS - 1;
+    for (int i = 0; i < COLUMNS; i++) {
+      if (filledColumn[i]) {
+        emptyColumns--;
+      }
+    }
+    return emptyColumns;
+  }
+
   private int checkWinningMove() {
     for (int i = 0; i < moveHistory.size(); i++) {
       Point computerMove = moveHistory.get(i);
@@ -59,19 +82,19 @@ public class ComputerPlayer extends Player {
           new Point(computerMove.x, COLUMNS - 1));
       int verticalLine = checkLine(computerMove, 
           new Point(ROWS - 1, computerMove.y));
-      int diagonalLeft = checkLine(game.
+      int diagonalRight = checkLine(game.
           getStartPoint(computerMove.x, computerMove.y, Direction.RIGHT), 
           new Point(ROWS - 1, COLUMNS - 1));
-      int diagonalRight = checkLine(game.
+      int diagonalLeft = checkLine(game.
           getStartPoint(computerMove.x, computerMove.y, Direction.LEFT), 
           new Point(ROWS - 1, 0));
       if (horizontalLine != -1) {
         return horizontalLine;
       } else if (verticalLine != -1) {
         return verticalLine;
-      } else if (diagonalLeft != -1) {
-        return diagonalLeft;
       } else if (diagonalRight != -1) {
+        return diagonalLeft;
+      } else if (diagonalLeft != -1) {
         return diagonalRight;
       }
     }
@@ -106,7 +129,13 @@ public class ComputerPlayer extends Player {
       }
       
       if (winningDisc == 2) {
-        return (y + directionOfY) > (COLUMNS - 1) ? -1 : y + directionOfY;
+        int column = (y + directionOfY) > (COLUMNS - 1) ? -1 : y + directionOfY;
+        if (column != -1) {
+          int row = game.getLowestRow(column);
+          int winningRow = current.getRowPlayed() + directionOfX;
+          return row == winningRow ? column : -1;
+        }
+        return -1;
       }
       x = x + directionOfX;
       y = y + directionOfY;
