@@ -67,9 +67,6 @@ public class CanvasView {
       
       @Override
       public void mousePressed(MouseEvent e) {
-        drawShape = new Shape();
-        drawShape.setX1(e.getX());
-        drawShape.setY1(e.getY());
       }
       
       @Override
