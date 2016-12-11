@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * Reference: http://codereview.stackexchange.com/questions/58304/
@@ -28,7 +29,7 @@ public class CanvasView {
     formDrawPanel();
     
     frame.getContentPane().setLayout(new BorderLayout());
-    frame.getContentPane().add(panel, BorderLayout.CENTER);    
+    frame.getContentPane().add(new JScrollPane(panel), BorderLayout.CENTER);    
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(200, 200);
     frame.setVisible(true);
@@ -83,6 +84,9 @@ public class CanvasView {
       
       @Override
       public void mouseClicked(MouseEvent e) {
+        drawShape = new Shape();
+        drawShape.setX1(e.getX());
+        drawShape.setY1(e.getY());
       }
     });
     
