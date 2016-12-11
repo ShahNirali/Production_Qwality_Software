@@ -47,4 +47,13 @@ public class Shape {
   public int getY2() {
     return y2;
   }
+  
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
+    sb.append(x1).append(", ").append(y1);
+    sb.append(x2).append(", ").append(y2);
+    sb.append("]");
+    return sb.toString();
+  }
 }
