@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
+ * SwingGUI used to initialse the canvas for all the users. It fires 
+ * events when mouse is moved by the user. 
  * Reference: http://codereview.stackexchange.com/questions/58304/
  * implementation-of-mvc-pattern-with-paintcomponent-method
  * 
@@ -22,6 +24,12 @@ public class CanvasView {
   private Canvas canvas;
   private Shape drawShape;
   
+  /**
+   * Used to form the initial outline of canvas. 
+   * Initialise drawing panel, add action events when mouse moves,
+   * and setting up canvas.
+   * @param canvas an object of Canvas
+   */
   public CanvasView(Canvas canvas) {
     this.canvas = canvas;
     
