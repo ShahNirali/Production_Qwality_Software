@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * ConnectFour class is responible for initializing game. This class also takes care of 
  * forming the (row,colum) pair of players move. It checks for winning sequence.
+ * It also notifies the Observers of the game.
  * Reference: https://github.com/hanshenrik/connect4/blob/master/src/main/java/FPModel.java
  * 
  * @author nns271
