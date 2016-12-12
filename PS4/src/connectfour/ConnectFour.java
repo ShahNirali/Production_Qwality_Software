@@ -37,7 +37,7 @@ public class ConnectFour {
   /**
    * Add connect four listners to the list who will be notified 
    * of any even occuring in the game.
-   * @param listner A refernce of ConnectFourListner object
+   * @param listner A refernce of ConnectFourListner
    * @throws IllegalArgumentException when listner passed is null
    */
   public void addConnectFourListener(ConnectFourListner listner) {
@@ -50,7 +50,7 @@ public class ConnectFour {
   /**
    * Remove connect four listners from the list who no longer wish to 
    * get notified. 
-   * @param listner A refernce of ConnectFourListner object
+   * @param listner A refernce of ConnectFourListner
    * @return boolean indicating the listner was removed
    * @throws IllegalArgumentException when listner passed is null
    */
