@@ -98,16 +98,13 @@ public class CanvasView {
           drawShape.setX2(mouseEvent.getX());
           drawShape.setY2(mouseEvent.getY());
           canvas.draw(drawShape);
+          drawShape.setX1(mouseEvent.getX());
+          drawShape.setY1(mouseEvent.getY());
         }
       }
       
       @Override
       public void mouseDragged(MouseEvent mouseEvent) {
-        if (drawShape != null) {
-          drawShape.setX2(mouseEvent.getX());
-          drawShape.setY2(mouseEvent.getY());
-          canvas.draw(drawShape);
-        }
       }
     });
   }
