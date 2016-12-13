@@ -56,9 +56,7 @@ public class CanvasView {
   }
 
   private void displayImage(Shape image) {
-    Graphics g = panel.getGraphics();
-    g.drawLine(image.getX1(), image.getY1(), image.getX2(), image.getY2());
-    panel.paintComponents(g);
+    image.renderImage(panel.getGraphics());
   }
 
   private void clearCanvas() {
@@ -76,6 +74,9 @@ public class CanvasView {
       
       @Override
       public void mousePressed(MouseEvent e) {
+        drawShape = new Pencil();
+        drawShape.setX1(e.getX());
+        drawShape.setY1(e.getY());
       }
       
       @Override
@@ -85,14 +86,14 @@ public class CanvasView {
       
       @Override
       public void mouseEntered(MouseEvent e) {
-        drawShape = new Shape();
+        drawShape = new Pencil();
         drawShape.setX1(e.getX());
         drawShape.setY1(e.getY());
       }
       
       @Override
       public void mouseClicked(MouseEvent e) {
-        drawShape = new Shape();
+        drawShape = new Pencil();
         drawShape.setX1(e.getX());
         drawShape.setY1(e.getY());
       }
