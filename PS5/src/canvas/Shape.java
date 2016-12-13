@@ -1,5 +1,7 @@
 package canvas;
 
+import java.awt.Graphics;
+
 /**
  * Shape is drawn by the user when he moves his mouse. 
  * It stores information about the co-ordinates that are used by graphics
@@ -106,5 +108,12 @@ public class Shape {
     sb.append(x2).append(", ").append(y2);
     sb.append("]");
     return sb.toString();
+  }
+  
+  /**
+   * Renders Image on the canvas based on Shape.
+   * @param graphics A reference of Graphics class
+   */
+  public void renderImage(Graphics graphics) {
   }
 }

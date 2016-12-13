@@ -50,13 +50,9 @@ public class CanvasView {
       
       @Override
       public void showDrawing(Shape image) {
-        displayImage(image);
+        image.renderImage(panel.getGraphics());
       }
     });
-  }
-
-  private void displayImage(Shape image) {
-    image.renderImage(panel.getGraphics());
   }
 
   private void clearCanvas() {
