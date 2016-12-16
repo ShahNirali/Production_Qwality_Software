@@ -1,6 +1,10 @@
 package canvas;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 
 import org.junit.Test;
 
@@ -26,6 +30,10 @@ public class PencilTest {
   
   @Test
   public void testRenderImage() {
-    
+    BufferedImage bf = new BufferedImage(200,200,BufferedImage.TYPE_INT_RGB);
+    Raster before = bf.getData();
+    Shape shape = new Pencil(200, 300, 500, 300);
+    shape.renderImage(bf.getGraphics());
+    assertFalse(bf.getData().equals(before));
   }
 }

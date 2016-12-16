@@ -98,12 +98,14 @@ public class CanvasView {
       
       @Override
       public void mouseMoved(MouseEvent mouseEvent) {
+        int x = mouseEvent.getX();
+        int y = mouseEvent.getY();
         if (drawShape != null) {
-          drawShape.setX2(mouseEvent.getX());
-          drawShape.setY2(mouseEvent.getY());
+          drawShape.setX2(x);
+          drawShape.setY2(y);
           canvas.draw(drawShape);
-          drawShape.setX1(mouseEvent.getX());
-          drawShape.setY1(mouseEvent.getY());
+          drawShape.setX1(x);
+          drawShape.setY1(y);
         }
       }
       
