@@ -3,14 +3,14 @@ package canvas;
 import java.awt.Graphics;
 
 /**
- * Shape is drawn by the user when he moves his mouse. 
+ * Shape is an abstract class used to draw when user moves his mouse. 
  * It stores information about the co-ordinates that are used by graphics
  * object to display on the canvas.
  * 
  * @author nns271
  *
  */
-public class Shape {
+public abstract class Shape {
   private int x1;
   private int y1;
   private int x2;
@@ -114,6 +114,5 @@ public class Shape {
    * Renders Image on the canvas based on Shape.
    * @param graphics A reference of Graphics class
    */
-  public void renderImage(Graphics graphics) {
-  }
+  public abstract void renderImage(Graphics graphics);
 }
