@@ -93,7 +93,7 @@ public class CanvasTest {
       }
     });
     canvas.startPainting();
-    canvas.draw(new Shape(2, 3, 4, 5));
+    canvas.draw(new Pencil(2, 3, 4, 5));
   }
   
   @Test (expected = IllegalArgumentException.class)
