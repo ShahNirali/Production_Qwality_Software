@@ -6,7 +6,7 @@ import java.awt.Color;
  * Player is used to store information about players playing the game 
  * in terms of name and color. 
  *  
- * @author nns271
+ * @author Nirali
  */
 public class Player {
   private final String name;

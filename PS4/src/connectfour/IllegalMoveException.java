@@ -4,7 +4,7 @@ package connectfour;
  * IllegalMoveException is subset of Exception used when 
  * player takes move outside the game board.
  * 
- * @author nns271
+ * @author Nirali
  */
 @SuppressWarnings("serial")
 public class IllegalMoveException extends Exception{

@@ -6,7 +6,7 @@ import java.awt.Color;
  * A subset of Player. AllPlayer represents any player other than computer player
  * who can play this game.
  * 
- * @author nns271
+ * @author Nirali
  */
 public class AllPlayer extends Player{
   

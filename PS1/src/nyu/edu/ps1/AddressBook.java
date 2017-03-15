@@ -18,7 +18,7 @@ import java.util.Iterator;
  * storing object into a file. 
  * 
  *  
- * @author nns271
+ * @author Nirali
  */
 public class AddressBook {
   private static final Logger logger = 

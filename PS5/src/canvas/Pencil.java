@@ -6,7 +6,7 @@ import java.awt.Graphics;
  * A subset of Shape. Pencil class is responsible for drawing
  * random lines as the mouse moves
  * 
- * @author nns271
+ * @author Nirali
  */
 public class Pencil extends Shape{
   

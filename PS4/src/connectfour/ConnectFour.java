@@ -10,7 +10,7 @@ import java.util.List;
  * It also notifies the Observers of the game.
  * Reference: https://github.com/hanshenrik/connect4/blob/master/src/main/java/FPModel.java
  * 
- * @author nns271
+ * @author Nirali
  */
 public class ConnectFour {
   private static final ConnectFour connectFour = new ConnectFour();

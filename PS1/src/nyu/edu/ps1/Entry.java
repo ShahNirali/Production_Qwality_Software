@@ -9,7 +9,7 @@ package nyu.edu.ps1;
  * Note
  * 
  *  
- * @author nns271      
+ * @author Nirali      
  */
 public class Entry {
   //Properties of AddressBook

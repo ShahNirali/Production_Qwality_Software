@@ -7,7 +7,7 @@ import java.awt.Graphics;
  * It stores information about the co-ordinates that are used by graphics
  * object to display on the canvas.
  * 
- * @author nns271
+ * @author Nirali
  *
  */
 public abstract class Shape {

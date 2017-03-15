@@ -3,7 +3,7 @@ package connectfour;
 /**
  * ConnectFourApp acts like a driver class and starts the game.
  * 
- * @author nns271 
+ * @author Nirali 
  */
 public class ConnectFourApp {
   

@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
  * Reference: http://codereview.stackexchange.com/questions/58304/
  * implementation-of-mvc-pattern-with-paintcomponent-method
  * 
- * @author nns271
+ * @author Nirali
  *
  */
 public class CanvasView { 

@@ -11,7 +11,7 @@ import java.util.Random;
  * he can win.
  * Reference: https://github.com/hanshenrik/connect4/blob/master/src/main/java/AIPlayer.java
  * 
- * @author nns271
+ * @author Nirali
  */
 public class ComputerPlayer extends Player {
   private ConnectFour game;

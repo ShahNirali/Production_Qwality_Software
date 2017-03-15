@@ -8,7 +8,7 @@ import java.util.List;
  * drawing panel (i.e. paint application where drawing with pencil)
  * It also notifies all the observers of the canvas.
  * 
- * @author nns271
+ * @author Nirali
  *
  */
 public class Canvas {

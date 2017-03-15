@@ -5,7 +5,7 @@ package connectfour;
  * Mainly it notifies these actions to all the listners/Observers 
  * of the game. Forms integral part of Observer pattern.
  * 
- * @author nns271
+ * @author Nirali
  */
 public interface ConnectFourListner {
   

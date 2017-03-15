@@ -13,7 +13,7 @@ import javax.swing.border.LineBorder;
 /**
  * SwingGUI used to initialse the players, board and game object.
  * 
- * @author nns271
+ * @author Nirali
  */
 public class ConnectFourView {
   private JFrame frame = new JFrame("Connect 4");
@@ -47,7 +47,6 @@ public class ConnectFourView {
       public void playerWon(Disc disc) {
         displayDisc(disc);
         showMessage(disc.getPlayer() + " won.");
-        
       }
       
       @Override
@@ -55,7 +54,7 @@ public class ConnectFourView {
         displayDisc(disc);
         if(computerPlayer != null && !disc.getPlayer().equals(computerPlayer)) {
           try {
-            connectFour.playDisc(computerPlayer.getMove(disc.getColumnPlayed()));
+            connectFour.playDisc(computerPlayer.getMove());
           } catch (IllegalMoveException e) {
           }
         }
@@ -74,8 +73,8 @@ public class ConnectFourView {
     startNewGame("Let's play Connect4!");
   }
   
-  //Helper method ConnectFourListner actions
-  protected void showMessage(String message) {
+  //Helper method for ConnectFourListner actions
+  private void showMessage(String message) {
     JOptionPane.showMessageDialog(frame, message);
   }
 
@@ -87,16 +86,29 @@ public class ConnectFourView {
   }
 
   private void startNewGame(String message) {
-    int dialogResult = JOptionPane.showConfirmDialog (frame, 
-        message + "\nWould you like to start new game? ","Connect4",JOptionPane.YES_NO_OPTION);
-    if (dialogResult == JOptionPane.YES_OPTION) {
+    Object[] options = { "Play against human", "Play against computer", "Quit" };
+    int result =
+      JOptionPane.showOptionDialog(frame, message, "ConnectFour",
+          JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+          null, options, options[0]);
+    switch(result) {
+    case 0:
+      Player player1 = new AllPlayer("Player 1", Color.RED);
+      Player player2 = new ComputerPlayer("Player 2", Color.BLUE, connectFour);
+      connectFour.startGame(player1, player2);
+      break;
+    case 1:
       Player player = new AllPlayer("Player", Color.RED);
       computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
       connectFour.startGame(player, computerPlayer);
-    } else {
+      break;
+    case 2:
       System.exit(0);
+      break;
+    default:
+      System.exit(0);
+      break;
     }
-
   }
 
   private void resetDiscs() {

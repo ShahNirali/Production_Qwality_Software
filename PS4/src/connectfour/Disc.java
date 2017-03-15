@@ -4,7 +4,7 @@ package connectfour;
  * A grid of Disc forms the board for the game. It stores information
  * of player, and (row, column) played by the player.
  * 
- * @author nns271
+ * @author Nirali
  */
 public class Disc {
   Player player;
