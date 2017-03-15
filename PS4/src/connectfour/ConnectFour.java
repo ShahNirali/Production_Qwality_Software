@@ -13,6 +13,7 @@ import java.util.List;
  * @author nns271
  */
 public class ConnectFour {
+  private static final ConnectFour connectFour = new ConnectFour();
   private Player currentPlayer;
   private Player player1;
   private Player player2;
@@ -26,9 +27,15 @@ public class ConnectFour {
   private List<Point> player2Moves = new ArrayList<Point>();
   
   /**
-   * ConnectFour constructor to form object an initialse data memebers
+   * To accomodate Singleton pattern for ConnectFour Object
+   * @return an instance of ConnectFour
    */
-  public ConnectFour() {
+  public static ConnectFour getInstance() {
+    return connectFour;
+  }
+  
+  //ConnectFour constructor to form object an initialse data memebers
+  private ConnectFour() {
     winningSequence = false;
     freeDiscs = ROWS*COLUMNS;
     initializeBoard();

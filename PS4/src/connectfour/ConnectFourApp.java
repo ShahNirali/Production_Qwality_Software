@@ -11,7 +11,7 @@ public class ConnectFourApp {
    * Used to start the game of connect4.
    */
   public void go() {
-    ConnectFour connectFour = new ConnectFour();
+    ConnectFour connectFour = ConnectFour.getInstance();
     new ConnectFourView(connectFour);
   }
   
