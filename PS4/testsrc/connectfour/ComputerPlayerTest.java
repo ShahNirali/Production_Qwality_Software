@@ -8,7 +8,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_simple() {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     Player player = new Player("Player", Color.BLACK);
     ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
@@ -17,7 +17,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_oneColumnIsFull() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     Player player = new Player("Player", Color.BLACK);
     ComputerPlayer computerPlayer = new ComputerPlayer("Computer", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
@@ -29,7 +29,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_withTwoComputerPlayer() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     ComputerPlayer computerPlayer1 = new ComputerPlayer("Computer1", Color.BLUE, connectFour);
     ComputerPlayer computerPlayer2 = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
     connectFour.startGame(computerPlayer1, computerPlayer2);
@@ -41,7 +41,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_withWinningMoveByComputer() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     ConnectFourListner listner = new ConnectFourListner() {
 
       @Override
@@ -83,7 +83,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_withFullBoard() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     ConnectFourListner listner = new ConnectFourListner() {
       @Override
       public void playerWon(Disc disc) {
@@ -119,7 +119,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_withLastColumnFull() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     Player player = new Player("Player", Color.BLACK);
     ComputerPlayer computerPlayer = new ComputerPlayer("Computer2", Color.BLUE, connectFour);
     connectFour.startGame(player, computerPlayer);
@@ -133,7 +133,7 @@ public class ComputerPlayerTest {
   
   @Test
   public void testGetMove_withOneColumnEmpty() throws IllegalMoveException {
-    ConnectFour connectFour= new ConnectFour();
+    ConnectFour connectFour= ConnectFour.getInstance();
     ConnectFourListner listner = new ConnectFourListner() {
       @Override
       public void playerWon(Disc disc) {

@@ -13,7 +13,7 @@ public class ConnectFourTest {
   
   @Test 
   public void testInitialiseBorard_simple() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     int ROWS = connectfour.getRows();
     int COLUMNS = connectfour.getColumns();
     Player player1 = new Player("Player1", Color.BLACK);
@@ -29,7 +29,7 @@ public class ConnectFourTest {
   
   @Test
   public void testAddListnerRemoveListner_withCorrectArguments() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     ConnectFourListner listner = new ConnectFourListner() {
       
       @Override
@@ -54,21 +54,21 @@ public class ConnectFourTest {
   
   @Test (expected = IllegalArgumentException.class)
   public void testAddListner_withNullValues() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     ConnectFourListner listner = null;
     connectfour.addConnectFourListener(listner);
   }
   
   @Test (expected = IllegalArgumentException.class)
   public void testRemoveListner_withNullArgument() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     ConnectFourListner listner = null;
     connectfour.removeConnectFourListener(listner);
   }
   
   @Test
   public void testStartGame_simple() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -76,20 +76,20 @@ public class ConnectFourTest {
   
   @Test (expected = IllegalArgumentException.class) 
   public void testStartGame_withSamePlayers() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     connectfour.startGame(player1, player1);
   }
   
   @Test (expected = IllegalArgumentException.class) 
   public void testStartGame_withNullPlayers() {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     connectfour.startGame(null, null);
   }
   
   @Test
   public void testPlayDisc_simple() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -98,7 +98,7 @@ public class ConnectFourTest {
   
   @Test (expected = IllegalMoveException.class)
   public void testPlayDisc_withInvalidMove() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -107,7 +107,7 @@ public class ConnectFourTest {
   
   @Test
   public void testPlayDisc_withTwoColumnsFull() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -120,7 +120,7 @@ public class ConnectFourTest {
   
   @Test (expected = IllegalMoveException.class)
   public void testPlayDisc_withMoveInFullColumn() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -132,7 +132,7 @@ public class ConnectFourTest {
   
   @Test
   public void testPlayDisc_withFullBoard() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -145,7 +145,7 @@ public class ConnectFourTest {
   
   @Test (expected = IllegalMoveException.class)
   public void testPlayDisc_withFullBoardAndExtraMove() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     ConnectFourListner listner = new ConnectFourListner() {
       
       @Override
@@ -178,7 +178,7 @@ public class ConnectFourTest {
   
   @Test
   public void testPlayDisc_withWinnngSequence() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
@@ -190,7 +190,7 @@ public class ConnectFourTest {
   
   @Test
   public void testGetPlayerMoveHistory_forPlayer() throws IllegalMoveException {
-    ConnectFour connectfour = new ConnectFour();
+    ConnectFour connectfour = ConnectFour.getInstance();
     Player player1 = new Player("Player1", Color.BLACK);
     Player player2 = new Player("Player2", Color.GRAY);
     connectfour.startGame(player1, player2);
